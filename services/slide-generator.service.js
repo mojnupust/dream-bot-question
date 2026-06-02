@@ -8,6 +8,7 @@ const regularFont = path.join(FONTS_DIR, "NotoSansBengali-Regular.ttf");
 const boldFont = path.join(FONTS_DIR, "NotoSansBengali-Bold.ttf");
 const latinRegular = path.join(FONTS_DIR, "NotoSans-Regular.ttf");
 const latinBold = path.join(FONTS_DIR, "NotoSans-Bold.ttf");
+const emojiFont = path.join(FONTS_DIR, "NotoColorEmoji.ttf");
 
 if (fs.existsSync(latinRegular))
   GlobalFonts.registerFromPath(latinRegular, "NotoSans");
@@ -17,16 +18,20 @@ if (fs.existsSync(regularFont))
   GlobalFonts.registerFromPath(regularFont, "NotoSansBengali");
 if (fs.existsSync(boldFont))
   GlobalFonts.registerFromPath(boldFont, "NotoSansBengali");
+if (fs.existsSync(emojiFont))
+  GlobalFonts.registerFromPath(emojiFont, "NotoColorEmoji");
 
 const FONT =
-  '"NotoSansBengali", "NotoSans", sans-serif';
+  '"NotoSansBengali", "NotoSans", "NotoColorEmoji", sans-serif';
 
 const IMAGES_DIR = path.join(__dirname, "..", "images");
+const SOLUTIONS_DIR = path.join(__dirname, "..", "solutions");
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const COUNTER_PATH = path.join(__dirname, "..", "counter.json");
 
 // ── Ensure directories exist ────────────────────────────────────
 if (!fs.existsSync(IMAGES_DIR)) fs.mkdirSync(IMAGES_DIR, { recursive: true });
+if (!fs.existsSync(SOLUTIONS_DIR)) fs.mkdirSync(SOLUTIONS_DIR, { recursive: true });
 
 // ── Counter management ──────────────────────────────────────────
 function readCounter() {
@@ -76,12 +81,15 @@ function wrapText(ctx, text, maxWidth) {
 
 // ── Helper: load owner image if exists ──────────────────────────
 async function loadOwnerImage(num) {
-  const imgPath = path.join(PUBLIC_DIR, `owner${num}.jpg`);
-  if (fs.existsSync(imgPath)) {
-    try {
-      return await loadImage(imgPath);
-    } catch {
-      return null;
+  const extensions = [".png", ".jpg", ".jpeg"];
+  for (const ext of extensions) {
+    const imgPath = path.join(PUBLIC_DIR, `owner${num}${ext}`);
+    if (fs.existsSync(imgPath)) {
+      try {
+        return await loadImage(imgPath);
+      } catch {
+        continue;
+      }
     }
   }
   return null;
@@ -127,35 +135,35 @@ const PALETTES = [
 ];
 
 const CTA_TEXTS = [
-  "🔥 সঠিক উত্তর কমেন্ট করুন! 💬",
-  "💡 আপনি কি পারবেন? কমেন্ট করুন! 🏆",
-  "⚡ চ্যালেঞ্জ! সঠিক উত্তর দিন কমেন্টে! 🎯",
-  "🧠 আপনার উত্তর কমেন্টে জানান! 📝",
-  "🏅 পারলে সঠিক উত্তর বলুন! কমেন্ট করুন! 💪",
-  "🎯 কমেন্টে আপনার উত্তর দিন! শেয়ার করুন! 🔄",
+  "সঠিক উত্তর কমেন্ট করুন!",
+  "আপনি কি পারবেন? কমেন্ট করুন!",
+  "চ্যালেঞ্জ! সঠিক উত্তর দিন কমেন্টে!",
+  "আপনার উত্তর কমেন্টে জানান!",
+  "পারলে সঠিক উত্তর বলুন! কমেন্ট করুন!",
+  "কমেন্টে আপনার উত্তর দিন! শেয়ার করুন!",
 ];
 
 const STYLE_CONFIGS = [
   { bgVariant: "classic-bar", headerVariant: "split", questionVariant: "card", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left" },
   { bgVariant: "gradient-top", headerVariant: "center", questionVariant: "soft", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center" },
   { bgVariant: "neon-grid", headerVariant: "badge", questionVariant: "glass", optionVariant: "glass", columns: 1, ctaVariant: "electric", footerAlign: "left" },
-  { bgVariant: "light-orbs", headerVariant: "right", questionVariant: "frame", optionVariant: "pill", columns: 2, ctaVariant: "glow", footerAlign: "right" },
+  { bgVariant: "light-orbs", headerVariant: "right", questionVariant: "frame", optionVariant: "pill", columns: 2, ctaVariant: "glow", footerAlign: "right", ownerImage: 1, ownerPosition: "left" },
   { bgVariant: "sunset-band", headerVariant: "banner", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "burst", footerAlign: "left" },
   { bgVariant: "mint-glow", headerVariant: "split", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "banner", footerAlign: "center" },
   { bgVariant: "blueprint", headerVariant: "center", questionVariant: "glass", optionVariant: "outline", columns: 1, ctaVariant: "electric", footerAlign: "left" },
   { bgVariant: "pink-ray", headerVariant: "badge", questionVariant: "frame", optionVariant: "pill", columns: 2, ctaVariant: "glow", footerAlign: "right" },
-  { bgVariant: "violet-wave", headerVariant: "split", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left" },
+  { bgVariant: "violet-wave", headerVariant: "split", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left", ownerImage: 2, ownerPosition: "right" },
   { bgVariant: "orange-paper", headerVariant: "right", questionVariant: "card", optionVariant: "outline", columns: 2, ctaVariant: "burst", footerAlign: "center" },
   { bgVariant: "cyber-dark", headerVariant: "banner", questionVariant: "glass", optionVariant: "glass", columns: 1, ctaVariant: "electric", footerAlign: "left" },
   { bgVariant: "gold-dark", headerVariant: "center", questionVariant: "frame", optionVariant: "solid", columns: 2, ctaVariant: "banner", footerAlign: "center" },
   { bgVariant: "newsprint", headerVariant: "split", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "glow", footerAlign: "left" },
   { bgVariant: "sky-rings", headerVariant: "badge", questionVariant: "card", optionVariant: "outline", columns: 2, ctaVariant: "burst", footerAlign: "right" },
-  { bgVariant: "amber-shine", headerVariant: "right", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "banner", footerAlign: "left" },
+  { bgVariant: "amber-shine", headerVariant: "right", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "banner", footerAlign: "left", ownerImage: 3, ownerPosition: "left" },
   { bgVariant: "green-spotlight", headerVariant: "center", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "glow", footerAlign: "center" },
   { bgVariant: "red-pop", headerVariant: "split", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "burst", footerAlign: "left" },
   { bgVariant: "indigo-orbit", headerVariant: "banner", questionVariant: "glass", optionVariant: "outline", columns: 2, ctaVariant: "electric", footerAlign: "right" },
   { bgVariant: "purple-confetti", headerVariant: "badge", questionVariant: "card", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left" },
-  { bgVariant: "ocean-grid", headerVariant: "split", questionVariant: "soft", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center" },
+  { bgVariant: "ocean-grid", headerVariant: "split", questionVariant: "soft", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center", ownerImage: 1, ownerPosition: "center" },
   { bgVariant: "cyan-burst", headerVariant: "center", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "glow", footerAlign: "left" },
   { bgVariant: "lime-lines", headerVariant: "right", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "electric", footerAlign: "right", ownerImage: 2, ownerPosition: "left" },
   { bgVariant: "rose-glow", headerVariant: "split", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "burst", footerAlign: "left", ownerImage: 3, ownerPosition: "right" },
@@ -512,21 +520,34 @@ function drawHeader(ctx, W, question, qNum, palette, config) {
 function drawOwnerPhoto(ctx, W, palette, position, ownerImg) {
   if (!ownerImg) return 0;
 
+  const imgSize = 70; // diameter
+  const imgRadius = imgSize / 2;
+  const padding = 8;
+  const containerSize = imgSize + padding * 2;
+  const containerRadius = containerSize / 2;
+
   if (position === "left") {
-    fillRoundRect(ctx, 30, 24, 86, 86, 43, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
-    drawCircularImage(ctx, ownerImg, 38, 32, 35);
+    const cx = 30;
+    const cy = 24;
+    fillRoundRect(ctx, cx, cy, containerSize, containerSize, containerRadius, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+    drawCircularImage(ctx, ownerImg, cx + padding, cy + padding, imgRadius);
     return 0;
   }
 
   if (position === "right") {
-    fillRoundRect(ctx, W - 116, 24, 86, 86, 43, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
-    drawCircularImage(ctx, ownerImg, W - 108, 32, 35);
+    const cx = W - 30 - containerSize;
+    const cy = 24;
+    fillRoundRect(ctx, cx, cy, containerSize, containerSize, containerRadius, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+    drawCircularImage(ctx, ownerImg, cx + padding, cy + padding, imgRadius);
     return 0;
   }
 
-  fillRoundRect(ctx, W / 2 - 43, 20, 86, 86, 43, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
-  drawCircularImage(ctx, ownerImg, W / 2 - 35, 28, 35);
-  return 18;
+  // center position - shifts content down
+  const cx = W / 2 - containerRadius;
+  const cy = 16;
+  fillRoundRect(ctx, cx, cy, containerSize, containerSize, containerRadius, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+  drawCircularImage(ctx, ownerImg, cx + padding, cy + padding, imgRadius);
+  return containerSize + 8;
 }
 
 function drawQuestionBlock(ctx, W, question, palette, config, startY) {
@@ -646,11 +667,11 @@ function drawOptionsBlock(ctx, W, question, palette, config, startY) {
   return startY + (columns === 2 ? 2 * boxH + gap : 4 * boxH + 3 * gap);
 }
 
-function drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config) {
+function drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config, customY) {
   const x = 42;
-  const y = H - 210;
+  const y = customY !== undefined ? customY : H - 210;
   const w = W - 84;
-  const h = 118;
+  const h = 100;
   const ctaText = getCtaText(qNum, styleIndex);
   const ctaTextColor = readableTextOn(palette.accent);
 
@@ -689,7 +710,7 @@ function drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config) {
 }
 
 function drawFooter(ctx, W, H, palette, align) {
-  const footer = "🌐 farhan-mcq.com | Farhan MCQ";
+  const footer = "farhan-mcq.com | Farhan MCQ";
   ctx.fillStyle = rgba(palette.text, 0.72);
   ctx.font = `18px ${FONT}`;
 
@@ -717,8 +738,17 @@ async function renderStyle(ctx, W, H, question, qNum, palette, config, styleInde
 
   const headerBottom = drawHeader(ctx, W, question, qNum, palette, config) + ownerOffset;
   const questionBottom = drawQuestionBlock(ctx, W, question, palette, config, headerBottom + 20);
-  drawOptionsBlock(ctx, W, question, palette, config, questionBottom + 24);
-  drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config);
+  const optionsBottom = drawOptionsBlock(ctx, W, question, palette, config, questionBottom + 24);
+
+  // Dynamic CTA positioning: place CTA after options with proper spacing
+  // but ensure it doesn't go below the footer area
+  const ctaHeight = 100;
+  const footerReserve = 60;
+  const minCtaY = optionsBottom + 16;
+  const maxCtaY = H - ctaHeight - footerReserve;
+  const ctaY = Math.min(minCtaY, maxCtaY);
+
+  drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config, ctaY);
   drawFooter(ctx, W, H, palette, config.footerAlign);
 }
 
@@ -861,8 +891,141 @@ async function generateSlide(question, questionNumber, styleIndex) {
 }
 
 /**
+ * Generates a solution slide showing the correct answer highlighted.
+ * Saved to solutions/ folder with sequential naming.
+ * @param {object} question - question data from API
+ * @param {number} questionNumber - sequential question number
+ * @param {number} styleIndex - which style to use (0-23)
+ * @returns {Promise<string>} - path to saved solution image
+ */
+async function generateSolutionSlide(question, questionNumber, styleIndex) {
+  const W = 1080;
+  const H = 1080;
+
+  const canvas = createCanvas(W, H);
+  const ctx = canvas.getContext("2d");
+
+  const palette = PALETTES[styleIndex % PALETTES.length];
+  const config = STYLE_CONFIGS[styleIndex % STYLE_CONFIGS.length];
+
+  // Draw background
+  drawBackground(ctx, W, H, palette, config.bgVariant);
+
+  // Draw owner photo if configured
+  let ownerOffset = 0;
+  if (config.ownerImage) {
+    const ownerImg = await loadOwnerImage(config.ownerImage);
+    ownerOffset = drawOwnerPhoto(ctx, W, palette, config.ownerPosition, ownerImg);
+  }
+
+  // Draw header
+  const headerBottom = drawHeader(ctx, W, question, questionNumber, palette, config) + ownerOffset;
+
+  // Draw question block
+  const questionBottom = drawQuestionBlock(ctx, W, question, palette, config, headerBottom + 20);
+
+  // Draw options with correct answer highlighted
+  const opts = getOptions(question);
+  const correctLetter = question.correctAnswer; // "A", "B", "C", or "D"
+  const letterMap = { A: 0, B: 1, C: 2, D: 3 };
+  const correctIdx = letterMap[correctLetter] ?? -1;
+
+  const columns = config.columns;
+  const gap = 18;
+  const outerX = 42;
+  const outerW = W - 84;
+  const colW = columns === 2 ? (outerW - gap) / 2 : outerW;
+  const boxH = columns === 2 ? 122 : 88;
+  const startY = questionBottom + 24;
+
+  for (let i = 0; i < opts.length; i++) {
+    const row = columns === 2 ? Math.floor(i / 2) : i;
+    const col = columns === 2 ? i % 2 : 0;
+    const x = outerX + col * (colW + gap);
+    const y = startY + row * (boxH + gap);
+    const isCorrect = i === correctIdx;
+
+    if (isCorrect) {
+      // Highlight correct answer with green background and border
+      fillRoundRect(ctx, x, y, colW, boxH, 24, rgba("#10b981", 0.2), "#10b981", 3);
+    } else {
+      // Normal option styling
+      const style = getOptionStyle(palette, config.optionVariant);
+      fillRoundRect(ctx, x, y, colW, boxH, 24, style.fill, style.stroke, 2);
+    }
+
+    // Draw badge
+    const badgeSize = columns === 2 ? 44 : 48;
+    const badgeFill = isCorrect ? "#10b981" : palette.accent;
+    fillRoundRect(ctx, x + 18, y + 18, badgeSize, badgeSize, 18, badgeFill);
+    ctx.fillStyle = isCorrect ? "#ffffff" : readableTextOn(palette.accent);
+    ctx.font = `bold ${columns === 2 ? 22 : 24}px ${FONT}`;
+    ctx.textAlign = "center";
+    ctx.fillText(opts[i].key, x + 18 + badgeSize / 2, y + 18 + badgeSize / 2 + 8);
+    ctx.textAlign = "left";
+
+    // Draw option text
+    const innerX = x + 18 + badgeSize + 18;
+    const innerW = colW - (innerX - x) - 20;
+    const sizeSet = columns === 2 ? [22, 20, 18] : [24, 22, 20, 18];
+    const fitted = fitWrappedText(ctx, opts[i].text, innerW, sizeSet, columns === 2 ? 3 : 2, "bold");
+    const lineHeight = fitted.size + 10;
+    const blockHeight = fitted.lines.length * lineHeight;
+    let textY = y + boxH / 2 - blockHeight / 2 + fitted.size - 4;
+
+    ctx.fillStyle = isCorrect ? "#065f46" : palette.text;
+    ctx.font = `bold ${fitted.size}px ${FONT}`;
+    for (const line of fitted.lines) {
+      ctx.fillText(line, innerX, textY);
+      textY += lineHeight;
+    }
+
+    // Draw checkmark for correct answer
+    if (isCorrect) {
+      ctx.fillStyle = "#10b981";
+      ctx.font = `bold 20px ${FONT}`;
+      ctx.textAlign = "right";
+      ctx.fillText("Correct", x + colW - 20, y + boxH / 2 + 7);
+      ctx.textAlign = "left";
+    }
+  }
+
+  const optionsBottom = startY + (columns === 2 ? 2 * boxH + gap : 4 * boxH + 3 * gap);
+
+  // Draw solution banner
+  const bannerY = optionsBottom + 16;
+  const bannerH = 80;
+  fillRoundRect(ctx, 42, bannerY, W - 84, bannerH, 24, "#10b981", rgba("#065f46", 0.3), 2);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = `bold 30px ${FONT}`;
+  ctx.textAlign = "center";
+  const correctOption = opts[correctIdx];
+  const answerText = correctOption ? `Correct Answer: (${correctOption.key}) ${correctOption.text}` : "Answer";
+  const answerFitted = fitWrappedText(ctx, answerText, W - 180, [28, 24, 22, 20], 2, "bold");
+  let ansY = bannerY + bannerH / 2 - (answerFitted.lines.length * (answerFitted.size + 8)) / 2 + answerFitted.size;
+  ctx.font = `bold ${answerFitted.size}px ${FONT}`;
+  for (const line of answerFitted.lines) {
+    ctx.fillText(line, W / 2, ansY);
+    ansY += answerFitted.size + 8;
+  }
+  ctx.textAlign = "left";
+
+  // Draw footer
+  drawFooter(ctx, W, H, palette, config.footerAlign);
+
+  // Save to solutions folder
+  const fileName = `solution-${questionNumber}.png`;
+  const filePath = path.join(SOLUTIONS_DIR, fileName);
+  const buffer = await canvas.encode("png");
+  fs.writeFileSync(filePath, buffer);
+
+  return filePath;
+}
+
+/**
  * Main function: generates 24 slides with 24 questions.
  * Uses counter.json to track sequential numbering.
+ * Also generates solution images in solutions/ folder.
  * @param {Function} fetchQuestionFn - async function that returns a question object
  * @returns {Promise<{slides: Array<{path: string, questionNumber: number}>, startNum: number, endNum: number}>}
  */
@@ -887,6 +1050,10 @@ async function generate24Slides(fetchQuestionFn) {
       const filePath = await generateSlide(question, qNum, styleIdx);
       slides.push({ path: filePath, questionNumber: qNum, question });
       console.log(`  ✅ Slide ${i + 1}/24 — Question #${qNum} (Style ${styleIdx + 1}) saved`);
+
+      // Generate solution image with correct answer
+      const solutionPath = await generateSolutionSlide(question, qNum, styleIdx);
+      console.log(`  📝 Solution for Question #${qNum} saved`);
     } catch (err) {
       console.error(`  ❌ Slide ${i + 1}/24 failed: ${err.message}`);
     }
@@ -901,15 +1068,18 @@ async function generate24Slides(fetchQuestionFn) {
 
   console.log(`\n✨ Generated ${slides.length} slides (Question #${startNum} to #${endNum})`);
   console.log(`📊 Total slides ever generated: ${counter.totalSlidesGenerated}`);
-  console.log(`💾 Saved to: ${IMAGES_DIR}\n`);
+  console.log(`💾 Slides saved to: ${IMAGES_DIR}`);
+  console.log(`📝 Solutions saved to: ${SOLUTIONS_DIR}\n`);
 
   return { slides, startNum, endNum };
 }
 
 module.exports = {
   generateSlide,
+  generateSolutionSlide,
   generate24Slides,
   readCounter,
   writeCounter,
   IMAGES_DIR,
+  SOLUTIONS_DIR,
 };

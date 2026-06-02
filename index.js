@@ -33,6 +33,7 @@ const {
   generate24Slides,
   readCounter,
   IMAGES_DIR,
+  SOLUTIONS_DIR,
 } = require("./services/slide-generator.service");
 
 const app = express();
@@ -131,8 +132,10 @@ async function generateSlidesAndPost() {
 
     console.log("\n📋 Summary:");
     console.log(`   • ${slides.length} slides generated and saved permanently`);
+    console.log(`   • ${slides.length} solution images generated`);
     console.log(`   • Question range: #${startNum} to #${endNum}`);
-    console.log(`   • Saved to: ${IMAGES_DIR}`);
+    console.log(`   • Slides saved to: ${IMAGES_DIR}`);
+    console.log(`   • Solutions saved to: ${SOLUTIONS_DIR}`);
     console.log(`   • First slide sent to Telegram`);
     console.log(`   • Upload remaining 23 slides to Facebook/Instagram manually`);
     console.log("\n═══════════════════════════════════════════════════════\n");
