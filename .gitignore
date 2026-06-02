@@ -4,3 +4,5 @@ dist/
 .env.local
 # Facebook token cache (auto-managed by fb-token.service.js)
 .fb-token-cache.json
+# Generated images are kept permanently (not ignored)
+# images/*.png

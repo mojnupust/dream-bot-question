@@ -29,6 +29,11 @@ const {
   generateStyledQuestionVideo,
 } = require("./services/video.service");
 const { initFBToken, refreshFBToken } = require("./services/fb-token.service");
+const {
+  generate24Slides,
+  readCounter,
+  IMAGES_DIR,
+} = require("./services/slide-generator.service");
 
 const app = express();
 
@@ -53,52 +58,97 @@ app.get("/", (req, res) => {
   res.send("Bot is running");
 });
 
-// ── AI-driven post execution ───────────────────────────────────
-// (Replaced with runAllPostTypesAndExit for single-run mode)
+// ── API route: view counter status ─────────────────────────────
+app.get("/api/counter", (req, res) => {
+  const counter = readCounter();
+  res.json(counter);
+});
 
-// ── Run all three post types sequentially and exit ─────────────
-async function runAllPostTypesAndExit() {
-  console.log("\n🚀 Starting execution of all three post types...\n");
+// ── API route: view generated images ───────────────────────────
+app.get("/api/images", (req, res) => {
+  try {
+    const files = fs.readdirSync(IMAGES_DIR).filter((f) => f.endsWith(".png"));
+    res.json({ total: files.length, images: files });
+  } catch {
+    res.json({ total: 0, images: [] });
+  }
+});
+
+// ── Generate 24 slides and send first one to Telegram ──────────
+async function generateSlidesAndPost() {
+  console.log("\n🎨 ═══════════════════════════════════════════════════");
+  console.log("   FARHAN MCQ — 24 Image Slide Generator");
+  console.log("═══════════════════════════════════════════════════════\n");
 
   try {
-    // 1. QUESTION POST (Image to Telegram)
-    console.log("📸 [1/3] Generating Question Post (Image)...");
-    const postType1 = "question";
-    let imagePath = null;
-    try {
-      const question = await fetchRandomQuestion();
-      if (question) {
-        const [imagePth, aiCaption] = await Promise.all([
-          generateQuestionCard(question),
-          generateQuestionCaption(question),
-        ]);
-        imagePath = imagePth;
+    // Generate 24 slides with different styles, saved permanently
+    const { slides, startNum, endNum } = await generate24Slides(
+      fetchRandomQuestion,
+    );
 
-        const telegramTargets = [
-          ...(chatId ? [{ id: chatId, label: "bot chat" }] : []),
-          ...(groupId ? [{ id: groupId, label: "group" }] : []),
-        ];
-
-        for (const target of telegramTargets) {
-          try {
-            await postQuestionToTelegram(
-              bot,
-              target.id,
-              question,
-              imagePath,
-              aiCaption,
-            );
-            console.log(`✅ Question posted to Telegram ${target.label}\n`);
-          } catch (err) {
-            console.error(`❌ Telegram ${target.label}: ${err.message}\n`);
-          }
-        }
-      }
-    } catch (err) {
-      console.error(`❌ Question post failed: ${err.message}\n`);
-    } finally {
-      if (imagePath) cleanupImage(imagePath);
+    if (slides.length === 0) {
+      console.error("❌ No slides generated! Check API connection.");
+      return;
     }
+
+    // Send the FIRST slide to Telegram group automatically
+    console.log("📤 Sending first slide to Telegram...");
+    const firstSlide = slides[0];
+
+    const telegramTargets = [
+      ...(chatId ? [{ id: chatId, label: "bot chat" }] : []),
+      ...(groupId ? [{ id: groupId, label: "group" }] : []),
+    ];
+
+    for (const target of telegramTargets) {
+      try {
+        const caption = [
+          `📚 <b>Farhan MCQ — প্রশ্ন #${firstSlide.questionNumber}</b>`,
+          ``,
+          `<b>${firstSlide.question.questionText}</b>`,
+          ``,
+          `(ক) ${firstSlide.question.optionA}`,
+          `(খ) ${firstSlide.question.optionB}`,
+          `(গ) ${firstSlide.question.optionC}`,
+          `(ঘ) ${firstSlide.question.optionD}`,
+          ``,
+          `✅ সঠিক উত্তর: <b>(${firstSlide.question.correctAnswer === "A" ? "ক" : firstSlide.question.correctAnswer === "B" ? "খ" : firstSlide.question.correctAnswer === "C" ? "গ" : "ঘ"}) ${firstSlide.question["option" + firstSlide.question.correctAnswer]}</b>`,
+          ``,
+          `#${firstSlide.question.subExamCategoryName.replace(/\s+/g, "_")} #${firstSlide.question.examCategoryName.replace(/\s+/g, "_")}`,
+          `🌐 farhan-mcq.com`,
+        ].join("\n");
+
+        const photoStream = fs.createReadStream(firstSlide.path);
+        await bot.sendPhoto(target.id, photoStream, {
+          caption,
+          parse_mode: "HTML",
+        });
+        console.log(`  ✅ Slide sent to Telegram ${target.label}`);
+      } catch (err) {
+        console.error(`  ❌ Telegram ${target.label}: ${err.message}`);
+      }
+    }
+
+    console.log("\n📋 Summary:");
+    console.log(`   • ${slides.length} slides generated and saved permanently`);
+    console.log(`   • Question range: #${startNum} to #${endNum}`);
+    console.log(`   • Saved to: ${IMAGES_DIR}`);
+    console.log(`   • First slide sent to Telegram`);
+    console.log(`   • Upload remaining 23 slides to Facebook/Instagram manually`);
+    console.log("\n═══════════════════════════════════════════════════════\n");
+  } catch (err) {
+    console.error(`❌ Slide generation failed: ${err.message}`);
+  }
+}
+
+// ── Run all tasks and exit ─────────────────────────────────────
+async function runAllPostTypesAndExit() {
+  console.log("\n🚀 Starting execution...\n");
+
+  try {
+    // 1. GENERATE 24 IMAGE SLIDES (Main feature)
+    console.log("🎨 [1/3] Generating 24 Image Slides...");
+    await generateSlidesAndPost();
 
     // 2. MOTIVATIONAL POST (Save to file)
     console.log("💪 [2/3] Generating Motivational Post...");
@@ -128,7 +178,7 @@ async function runAllPostTypesAndExit() {
       console.error(`❌ Study tip post failed: ${err.message}\n`);
     }
 
-    console.log("✨ All three tasks completed successfully!");
+    console.log("✨ All tasks completed successfully!");
     console.log("👋 Exiting server...\n");
     process.exit(0);
   } catch (err) {
@@ -163,7 +213,7 @@ async function runAllPostTypesAndExit() {
 // ── Server ────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 
-// Init Facebook token, then run all three post types and exit
+// Init Facebook token, then run all tasks and exit
 initFBToken().then(() => {
   runAllPostTypesAndExit();
 });
