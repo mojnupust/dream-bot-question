@@ -100,1861 +100,726 @@ function drawCircularImage(ctx, img, x, y, radius) {
 
 // ── Color palettes for variety ──────────────────────────────────
 const PALETTES = [
-  { bg: "#1a1a2e", accent: "#e94560", text: "#ffffff", secondary: "#16213e" },
-  { bg: "#0f3460", accent: "#e94560", text: "#ffffff", secondary: "#533483" },
-  { bg: "#ffffff", accent: "#4F46E5", text: "#1a1a2e", secondary: "#f3f4f6" },
-  { bg: "#fef3c7", accent: "#d97706", text: "#1c1917", secondary: "#fffbeb" },
-  { bg: "#ecfdf5", accent: "#059669", text: "#064e3b", secondary: "#d1fae5" },
-  { bg: "#eff6ff", accent: "#2563eb", text: "#1e3a5f", secondary: "#dbeafe" },
-  { bg: "#fdf2f8", accent: "#db2777", text: "#831843", secondary: "#fce7f3" },
-  { bg: "#f5f3ff", accent: "#7c3aed", text: "#4c1d95", secondary: "#ede9fe" },
-  { bg: "#fff7ed", accent: "#ea580c", text: "#431407", secondary: "#fed7aa" },
-  { bg: "#f0fdfa", accent: "#0d9488", text: "#134e4a", secondary: "#ccfbf1" },
-  { bg: "#1e293b", accent: "#38bdf8", text: "#f1f5f9", secondary: "#334155" },
-  { bg: "#18181b", accent: "#fbbf24", text: "#fafafa", secondary: "#27272a" },
-  { bg: "#fafaf9", accent: "#dc2626", text: "#1c1917", secondary: "#e7e5e4" },
-  { bg: "#f8fafc", accent: "#0ea5e9", text: "#0f172a", secondary: "#e2e8f0" },
-  { bg: "#fffbeb", accent: "#b45309", text: "#451a03", secondary: "#fde68a" },
-  { bg: "#f0fdf4", accent: "#16a34a", text: "#14532d", secondary: "#bbf7d0" },
-  { bg: "#fef2f2", accent: "#ef4444", text: "#7f1d1d", secondary: "#fecaca" },
-  { bg: "#eef2ff", accent: "#4f46e5", text: "#312e81", secondary: "#c7d2fe" },
-  { bg: "#fdf4ff", accent: "#a855f7", text: "#581c87", secondary: "#f5d0fe" },
-  { bg: "#f0f9ff", accent: "#0284c7", text: "#0c4a6e", secondary: "#bae6fd" },
-  { bg: "#ecfeff", accent: "#0891b2", text: "#164e63", secondary: "#a5f3fc" },
-  { bg: "#f7fee7", accent: "#65a30d", text: "#365314", secondary: "#d9f99d" },
-  { bg: "#fff1f2", accent: "#f43f5e", text: "#4c0519", secondary: "#ffe4e6" },
-  { bg: "#f8f8ff", accent: "#6366f1", text: "#1e1b4b", secondary: "#e0e7ff" },
+  { bg: "#1a1a2e", accent: "#ff6b6b", text: "#ffffff", secondary: "#16213e", border: "#60a5fa" },
+  { bg: "#0f172a", accent: "#22d3ee", text: "#f8fafc", secondary: "#1e293b", border: "#38bdf8" },
+  { bg: "#18181b", accent: "#f97316", text: "#fafafa", secondary: "#27272a", border: "#fb7185" },
+  { bg: "#ffffff", accent: "#4f46e5", text: "#0f172a", secondary: "#eef2ff", border: "#312e81" },
+  { bg: "#fef3c7", accent: "#d97706", text: "#1c1917", secondary: "#fffbeb", border: "#92400e" },
+  { bg: "#ecfdf5", accent: "#059669", text: "#064e3b", secondary: "#d1fae5", border: "#047857" },
+  { bg: "#eff6ff", accent: "#2563eb", text: "#0f172a", secondary: "#dbeafe", border: "#1d4ed8" },
+  { bg: "#fdf2f8", accent: "#db2777", text: "#831843", secondary: "#fce7f3", border: "#be185d" },
+  { bg: "#f5f3ff", accent: "#7c3aed", text: "#2e1065", secondary: "#ede9fe", border: "#6d28d9" },
+  { bg: "#fff7ed", accent: "#ea580c", text: "#431407", secondary: "#ffedd5", border: "#c2410c" },
+  { bg: "#0b1120", accent: "#a855f7", text: "#f8fafc", secondary: "#1f2937", border: "#c084fc" },
+  { bg: "#111827", accent: "#f59e0b", text: "#f9fafb", secondary: "#1f2937", border: "#fbbf24" },
+  { bg: "#fafaf9", accent: "#dc2626", text: "#1c1917", secondary: "#e7e5e4", border: "#b91c1c" },
+  { bg: "#f8fafc", accent: "#0ea5e9", text: "#0f172a", secondary: "#e2e8f0", border: "#0284c7" },
+  { bg: "#fffbeb", accent: "#b45309", text: "#451a03", secondary: "#fde68a", border: "#92400e" },
+  { bg: "#f0fdf4", accent: "#16a34a", text: "#14532d", secondary: "#bbf7d0", border: "#15803d" },
+  { bg: "#fef2f2", accent: "#ef4444", text: "#7f1d1d", secondary: "#fecaca", border: "#dc2626" },
+  { bg: "#eef2ff", accent: "#4f46e5", text: "#312e81", secondary: "#c7d2fe", border: "#4338ca" },
+  { bg: "#fdf4ff", accent: "#a855f7", text: "#581c87", secondary: "#f5d0fe", border: "#9333ea" },
+  { bg: "#f0f9ff", accent: "#0284c7", text: "#0c4a6e", secondary: "#bae6fd", border: "#0369a1" },
+  { bg: "#ecfeff", accent: "#0891b2", text: "#164e63", secondary: "#a5f3fc", border: "#0e7490" },
+  { bg: "#f7fee7", accent: "#65a30d", text: "#365314", secondary: "#d9f99d", border: "#4d7c0f" },
+  { bg: "#fff1f2", accent: "#f43f5e", text: "#4c0519", secondary: "#ffe4e6", border: "#e11d48" },
+  { bg: "#f8f8ff", accent: "#6366f1", text: "#1e1b4b", secondary: "#e0e7ff", border: "#4f46e5" },
 ];
+
+const CTA_TEXTS = [
+  "🔥 সঠিক উত্তর কমেন্ট করুন! 💬",
+  "💡 আপনি কি পারবেন? কমেন্ট করুন! 🏆",
+  "⚡ চ্যালেঞ্জ! সঠিক উত্তর দিন কমেন্টে! 🎯",
+  "🧠 আপনার উত্তর কমেন্টে জানান! 📝",
+  "🏅 পারলে সঠিক উত্তর বলুন! কমেন্ট করুন! 💪",
+  "🎯 কমেন্টে আপনার উত্তর দিন! শেয়ার করুন! 🔄",
+];
+
+const STYLE_CONFIGS = [
+  { bgVariant: "classic-bar", headerVariant: "split", questionVariant: "card", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left" },
+  { bgVariant: "gradient-top", headerVariant: "center", questionVariant: "soft", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center" },
+  { bgVariant: "neon-grid", headerVariant: "badge", questionVariant: "glass", optionVariant: "glass", columns: 1, ctaVariant: "electric", footerAlign: "left" },
+  { bgVariant: "light-orbs", headerVariant: "right", questionVariant: "frame", optionVariant: "pill", columns: 2, ctaVariant: "glow", footerAlign: "right" },
+  { bgVariant: "sunset-band", headerVariant: "banner", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "burst", footerAlign: "left" },
+  { bgVariant: "mint-glow", headerVariant: "split", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "banner", footerAlign: "center" },
+  { bgVariant: "blueprint", headerVariant: "center", questionVariant: "glass", optionVariant: "outline", columns: 1, ctaVariant: "electric", footerAlign: "left" },
+  { bgVariant: "pink-ray", headerVariant: "badge", questionVariant: "frame", optionVariant: "pill", columns: 2, ctaVariant: "glow", footerAlign: "right" },
+  { bgVariant: "violet-wave", headerVariant: "split", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left" },
+  { bgVariant: "orange-paper", headerVariant: "right", questionVariant: "card", optionVariant: "outline", columns: 2, ctaVariant: "burst", footerAlign: "center" },
+  { bgVariant: "cyber-dark", headerVariant: "banner", questionVariant: "glass", optionVariant: "glass", columns: 1, ctaVariant: "electric", footerAlign: "left" },
+  { bgVariant: "gold-dark", headerVariant: "center", questionVariant: "frame", optionVariant: "solid", columns: 2, ctaVariant: "banner", footerAlign: "center" },
+  { bgVariant: "newsprint", headerVariant: "split", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "glow", footerAlign: "left" },
+  { bgVariant: "sky-rings", headerVariant: "badge", questionVariant: "card", optionVariant: "outline", columns: 2, ctaVariant: "burst", footerAlign: "right" },
+  { bgVariant: "amber-shine", headerVariant: "right", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "banner", footerAlign: "left" },
+  { bgVariant: "green-spotlight", headerVariant: "center", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "glow", footerAlign: "center" },
+  { bgVariant: "red-pop", headerVariant: "split", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "burst", footerAlign: "left" },
+  { bgVariant: "indigo-orbit", headerVariant: "banner", questionVariant: "glass", optionVariant: "outline", columns: 2, ctaVariant: "electric", footerAlign: "right" },
+  { bgVariant: "purple-confetti", headerVariant: "badge", questionVariant: "card", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left" },
+  { bgVariant: "ocean-grid", headerVariant: "split", questionVariant: "soft", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center" },
+  { bgVariant: "cyan-burst", headerVariant: "center", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "glow", footerAlign: "left" },
+  { bgVariant: "lime-lines", headerVariant: "right", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "electric", footerAlign: "right", ownerImage: 2, ownerPosition: "left" },
+  { bgVariant: "rose-glow", headerVariant: "split", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "burst", footerAlign: "left", ownerImage: 3, ownerPosition: "right" },
+  { bgVariant: "royal-finish", headerVariant: "banner", questionVariant: "glass", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center", ownerImage: 1, ownerPosition: "center" },
+];
+
+function hexToRgb(hex) {
+  const normalized = hex.replace("#", "");
+  const full = normalized.length === 3
+    ? normalized.split("").map((c) => c + c).join("")
+    : normalized;
+  const int = parseInt(full, 16);
+  return {
+    r: (int >> 16) & 255,
+    g: (int >> 8) & 255,
+    b: int & 255,
+  };
+}
+
+function rgba(hex, alpha) {
+  const { r, g, b } = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function luminance(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  const channels = [r, g, b].map((value) => {
+    const v = value / 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+}
+
+function readableTextOn(hex) {
+  return luminance(hex) > 0.55 ? "#0f172a" : "#ffffff";
+}
+
+function safeText(value, fallback = "") {
+  const normalized = String(value ?? fallback).trim();
+  return normalized || fallback;
+}
+
+function getCategoryText(question) {
+  const exam = safeText(question.examCategoryName, "General Knowledge");
+  const sub = safeText(question.subExamCategoryName, "");
+  return sub && sub !== exam ? `${exam} • ${sub}` : exam;
+}
+
+function getOptions(question) {
+  return [
+    { key: "ক", text: safeText(question.optionA, "Option A") },
+    { key: "খ", text: safeText(question.optionB, "Option B") },
+    { key: "গ", text: safeText(question.optionC, "Option C") },
+    { key: "ঘ", text: safeText(question.optionD, "Option D") },
+  ];
+}
+
+function getCtaText(qNum, styleSeed = 0) {
+  return CTA_TEXTS[(qNum + styleSeed - 1) % CTA_TEXTS.length];
+}
+
+function fitWrappedText(ctx, text, maxWidth, fontSizes, maxLines, weight = "bold") {
+  for (const size of fontSizes) {
+    ctx.font = `${weight} ${size}px ${FONT}`;
+    const lines = wrapText(ctx, text, maxWidth);
+    if (lines.length <= maxLines) return { size, lines };
+  }
+
+  const size = fontSizes[fontSizes.length - 1];
+  ctx.font = `${weight} ${size}px ${FONT}`;
+  const lines = wrapText(ctx, text, maxWidth);
+  const trimmed = lines.slice(0, maxLines);
+  if (lines.length > maxLines) {
+    let last = trimmed[maxLines - 1];
+    while (last.length > 1 && ctx.measureText(`${last}…`).width > maxWidth) {
+      last = last.slice(0, -1);
+    }
+    trimmed[maxLines - 1] = `${last}…`;
+  }
+  return { size, lines: trimmed };
+}
+
+function fillRoundRect(ctx, x, y, w, h, r, fill, stroke, lineWidth = 2) {
+  roundedRect(ctx, x, y, w, h, r);
+  if (fill) {
+    ctx.fillStyle = fill;
+    ctx.fill();
+  }
+  if (stroke) {
+    roundedRect(ctx, x, y, w, h, r);
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+  }
+}
+
+function drawGlowRect(ctx, x, y, w, h, r, color, alpha = 0.28, blur = 28) {
+  ctx.save();
+  ctx.shadowColor = rgba(color, alpha);
+  ctx.shadowBlur = blur;
+  fillRoundRect(ctx, x, y, w, h, r, rgba(color, 0.12));
+  ctx.restore();
+}
+
+function drawCircle(ctx, x, y, radius, fill, alpha = 1) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.fillStyle = fill;
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawLine(ctx, x1, y1, x2, y2, color, width = 2, alpha = 1) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawBackground(ctx, W, H, palette, variant) {
+  ctx.fillStyle = palette.bg;
+  ctx.fillRect(0, 0, W, H);
+
+  switch (variant) {
+    case "classic-bar": {
+      ctx.fillStyle = palette.accent;
+      ctx.fillRect(0, 0, W, 10);
+      drawCircle(ctx, W - 120, 140, 180, rgba(palette.accent, 0.16));
+      drawCircle(ctx, 120, H - 120, 140, rgba(palette.border, 0.12));
+      break;
+    }
+    case "gradient-top": {
+      const grad = ctx.createLinearGradient(0, 0, W, 240);
+      grad.addColorStop(0, palette.accent);
+      grad.addColorStop(1, palette.bg);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, 280);
+      drawCircle(ctx, W - 90, 100, 120, rgba("#ffffff", 0.08));
+      break;
+    }
+    case "neon-grid":
+    case "blueprint":
+    case "ocean-grid": {
+      const overlay = ctx.createRadialGradient(W / 2, 200, 80, W / 2, 200, 700);
+      overlay.addColorStop(0, rgba(palette.accent, 0.3));
+      overlay.addColorStop(1, rgba(palette.bg, 0));
+      ctx.fillStyle = overlay;
+      ctx.fillRect(0, 0, W, H);
+      for (let x = 0; x <= W; x += 60) drawLine(ctx, x, 0, x, H, rgba(palette.text, 0.08), 1);
+      for (let y = 0; y <= H; y += 60) drawLine(ctx, 0, y, W, y, rgba(palette.text, 0.08), 1);
+      break;
+    }
+    case "light-orbs":
+    case "orange-paper":
+    case "newsprint":
+    case "sky-rings":
+    case "green-spotlight":
+    case "rose-glow": {
+      drawCircle(ctx, 120, 120, 130, rgba(palette.accent, 0.12));
+      drawCircle(ctx, W - 140, 190, 170, rgba(palette.border, 0.1));
+      drawCircle(ctx, W / 2, H - 120, 220, rgba(palette.accent, 0.08));
+      break;
+    }
+    case "sunset-band":
+    case "amber-shine": {
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, rgba(palette.accent, 0.26));
+      grad.addColorStop(0.45, rgba(palette.bg, 0));
+      grad.addColorStop(1, rgba(palette.border, 0.12));
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = rgba(palette.accent, 0.2);
+      ctx.fillRect(0, 0, W, 150);
+      break;
+    }
+    case "mint-glow": {
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, rgba(palette.accent, 0.22));
+      grad.addColorStop(0.45, rgba(palette.bg, 0));
+      grad.addColorStop(1, rgba(palette.border, 0.18));
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      drawGlowRect(ctx, 70, 90, W - 140, H - 240, 42, palette.accent, 0.12, 60);
+      break;
+    }
+    case "pink-ray":
+    case "cyan-burst": {
+      drawCircle(ctx, W / 2, 200, 220, rgba(palette.accent, 0.12));
+      for (let i = 0; i < 16; i++) {
+        const angle = (Math.PI * 2 * i) / 16;
+        const x2 = W / 2 + Math.cos(angle) * 520;
+        const y2 = 200 + Math.sin(angle) * 520;
+        drawLine(ctx, W / 2, 200, x2, y2, rgba(palette.accent, 0.1), 4);
+      }
+      break;
+    }
+    case "violet-wave":
+    case "indigo-orbit": {
+      const grad = ctx.createRadialGradient(W / 2, 100, 40, W / 2, H / 2, 680);
+      grad.addColorStop(0, rgba(palette.accent, 0.26));
+      grad.addColorStop(1, rgba(palette.bg, 0));
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      drawCircle(ctx, 120, H - 150, 220, rgba(palette.border, 0.12));
+      drawCircle(ctx, W - 80, 120, 150, rgba(palette.accent, 0.1));
+      break;
+    }
+    case "cyber-dark":
+    case "gold-dark": {
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, rgba(palette.accent, 0.22));
+      grad.addColorStop(0.45, rgba(palette.bg, 0));
+      grad.addColorStop(1, rgba(palette.border, 0.18));
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      drawGlowRect(ctx, 70, 90, W - 140, H - 240, 42, palette.accent, 0.12, 60);
+      for (let i = 0; i < 7; i++) {
+        drawLine(ctx, -40, 130 + i * 140, W + 40, 70 + i * 140, rgba(palette.border, 0.08), 8);
+      }
+      break;
+    }
+    case "red-pop": {
+      for (let i = 0; i < 7; i++) {
+        drawLine(ctx, -40, 130 + i * 140, W + 40, 70 + i * 140, rgba(palette.border, 0.08), 8);
+      }
+      drawCircle(ctx, W - 140, 120, 170, rgba(palette.accent, 0.15));
+      drawCircle(ctx, 150, H - 180, 190, rgba(palette.border, 0.12));
+      break;
+    }
+    case "purple-confetti": {
+      for (let i = 0; i < 24; i++) {
+        const x = 40 + (i * 43) % W;
+        const y = 80 + ((i * 97) % 900);
+        fillRoundRect(ctx, x, y, 20, 8, 4, i % 2 === 0 ? rgba(palette.accent, 0.35) : rgba(palette.border, 0.35));
+      }
+      break;
+    }
+    case "lime-lines": {
+      for (let i = 0; i < 10; i++) {
+        drawLine(ctx, 60 + i * 100, 0, 0 + i * 100, H, rgba(palette.accent, 0.08), 6);
+      }
+      break;
+    }
+    case "royal-finish": {
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, rgba(palette.accent, 0.18));
+      grad.addColorStop(1, rgba(palette.border, 0.18));
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, 200);
+      drawGlowRect(ctx, 70, 90, W - 140, H - 240, 42, palette.accent, 0.12, 60);
+      for (let i = 0; i < 7; i++) {
+        drawLine(ctx, -40, 130 + i * 140, W + 40, 70 + i * 140, rgba(palette.border, 0.08), 8);
+      }
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+function drawHeader(ctx, W, question, qNum, palette, config) {
+  const category = getCategoryText(question);
+  const badgeTextColor = readableTextOn(palette.accent);
+  const headerY = config.headerVariant === "banner" ? 34 : 42;
+
+  if (config.headerVariant === "banner") {
+    fillRoundRect(ctx, 40, 30, W - 80, 92, 28, palette.accent, rgba(palette.text, 0.18), 1.5);
+    ctx.fillStyle = badgeTextColor;
+    ctx.font = `bold 24px ${FONT}`;
+    ctx.fillText(`প্রশ্ন #${qNum}`, 76, 88);
+    ctx.textAlign = "right";
+    ctx.font = `bold 28px ${FONT}`;
+    ctx.fillText("Farhan MCQ", W - 72, 88);
+    ctx.textAlign = "left";
+    ctx.fillStyle = rgba(badgeTextColor, 0.88);
+    ctx.font = `20px ${FONT}`;
+    ctx.fillText(category, 74, 130);
+    return 160;
+  }
+
+  if (config.headerVariant === "center") {
+    fillRoundRect(ctx, W / 2 - 110, 38, 220, 52, 26, palette.accent);
+    ctx.fillStyle = badgeTextColor;
+    ctx.font = `bold 24px ${FONT}`;
+    ctx.textAlign = "center";
+    ctx.fillText(`প্রশ্ন #${qNum}`, W / 2, 72);
+    ctx.fillStyle = palette.text;
+    ctx.font = `bold 30px ${FONT}`;
+    ctx.fillText("Farhan MCQ", W / 2, 120);
+    ctx.font = `20px ${FONT}`;
+    ctx.fillStyle = rgba(palette.text, 0.84);
+    ctx.fillText(category, W / 2, 154);
+    ctx.textAlign = "left";
+    return 184;
+  }
+
+  if (config.headerVariant === "right") {
+    fillRoundRect(ctx, W - 220, 40, 180, 52, 26, palette.accent);
+    ctx.fillStyle = badgeTextColor;
+    ctx.font = `bold 24px ${FONT}`;
+    ctx.textAlign = "center";
+    ctx.fillText(`প্রশ্ন #${qNum}`, W - 130, 74);
+    ctx.textAlign = "left";
+    ctx.fillStyle = palette.text;
+    ctx.font = `bold 28px ${FONT}`;
+    ctx.fillText("Farhan MCQ", 48, 76);
+    ctx.font = `20px ${FONT}`;
+    ctx.fillStyle = rgba(palette.text, 0.84);
+    ctx.fillText(category, 48, 120);
+    return 160;
+  }
+
+  if (config.headerVariant === "badge") {
+    fillRoundRect(ctx, 46, 40, 150, 54, 27, palette.accent);
+    ctx.fillStyle = badgeTextColor;
+    ctx.font = `bold 24px ${FONT}`;
+    ctx.textAlign = "center";
+    ctx.fillText(`প্রশ্ন #${qNum}`, 121, 76);
+    ctx.textAlign = "right";
+    ctx.fillStyle = palette.text;
+    ctx.font = `bold 28px ${FONT}`;
+    ctx.fillText("Farhan MCQ", W - 48, 76);
+    ctx.textAlign = "left";
+    ctx.fillStyle = rgba(palette.text, 0.84);
+    ctx.font = `20px ${FONT}`;
+    ctx.fillText(category, 48, 126);
+    return 162;
+  }
+
+  fillRoundRect(ctx, 42, headerY, 180, 54, 27, palette.accent);
+  ctx.fillStyle = badgeTextColor;
+  ctx.font = `bold 24px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText(`প্রশ্ন #${qNum}`, 132, headerY + 36);
+  ctx.textAlign = "right";
+  ctx.fillStyle = palette.text;
+  ctx.font = `bold 28px ${FONT}`;
+  ctx.fillText("Farhan MCQ", W - 42, headerY + 36);
+  ctx.textAlign = "left";
+  ctx.fillStyle = rgba(palette.text, 0.82);
+  ctx.font = `20px ${FONT}`;
+  ctx.fillText(category, 44, 124);
+  return 160;
+}
+
+function drawOwnerPhoto(ctx, W, palette, position, ownerImg) {
+  if (!ownerImg) return 0;
+
+  if (position === "left") {
+    fillRoundRect(ctx, 30, 24, 86, 86, 43, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+    drawCircularImage(ctx, ownerImg, 38, 32, 35);
+    return 0;
+  }
+
+  if (position === "right") {
+    fillRoundRect(ctx, W - 116, 24, 86, 86, 43, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+    drawCircularImage(ctx, ownerImg, W - 108, 32, 35);
+    return 0;
+  }
+
+  fillRoundRect(ctx, W / 2 - 43, 20, 86, 86, 43, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+  drawCircularImage(ctx, ownerImg, W / 2 - 35, 28, 35);
+  return 18;
+}
+
+function drawQuestionBlock(ctx, W, question, palette, config, startY) {
+  const boxX = 42;
+  const boxW = W - 84;
+  const innerW = boxW - 80;
+  const questionText = safeText(question.questionText, "প্রশ্ন লোড করা যায়নি");
+  const maxLines = config.columns === 2 ? 4 : 5;
+  const fitted = fitWrappedText(ctx, questionText, innerW, [44, 40, 36, 34, 32, 30], maxLines, "bold");
+  const lineHeight = fitted.size + 14;
+  const boxH = 90 + fitted.lines.length * lineHeight;
+
+  if (config.questionVariant === "glass") {
+    fillRoundRect(ctx, boxX, startY, boxW, boxH, 30, rgba(palette.secondary, 0.76), rgba(palette.border, 0.36), 2);
+    drawGlowRect(ctx, boxX, startY, boxW, boxH, 30, palette.accent, 0.14, 34);
+  } else if (config.questionVariant === "frame") {
+    fillRoundRect(ctx, boxX, startY, boxW, boxH, 30, rgba(palette.secondary, 0.94), palette.accent, 3);
+    fillRoundRect(ctx, boxX + 16, startY + 16, boxW - 32, boxH - 32, 22, rgba(palette.bg, 0.42));
+  } else if (config.questionVariant === "soft") {
+    fillRoundRect(ctx, boxX, startY, boxW, boxH, 30, rgba(palette.secondary, 0.92), rgba(palette.text, 0.08), 1.5);
+    fillRoundRect(ctx, boxX + 20, startY + 20, 10, boxH - 40, 5, palette.accent);
+  } else {
+    fillRoundRect(ctx, boxX, startY, boxW, boxH, 30, rgba(palette.secondary, 0.96), rgba(palette.border, 0.26), 2);
+    fillRoundRect(ctx, boxX, startY, boxW, 12, 6, palette.accent);
+  }
+
+  ctx.fillStyle = palette.text;
+  ctx.font = `bold ${fitted.size}px ${FONT}`;
+  let y = startY + 62;
+  for (const line of fitted.lines) {
+    ctx.fillText(line, boxX + 38, y);
+    y += lineHeight;
+  }
+
+  return startY + boxH;
+}
+
+function getOptionStyle(palette, variant) {
+  switch (variant) {
+    case "glass":
+      return {
+        fill: rgba(palette.secondary, 0.7),
+        stroke: rgba(palette.border, 0.42),
+        letterFill: palette.accent,
+        letterText: readableTextOn(palette.accent),
+      };
+    case "outline":
+      return {
+        fill: rgba(palette.secondary, 0.94),
+        stroke: palette.border,
+        letterFill: rgba(palette.accent, 0.18),
+        letterText: palette.text,
+      };
+    case "pill":
+      return {
+        fill: rgba(palette.secondary, 0.96),
+        stroke: rgba(palette.text, 0.14),
+        letterFill: palette.text,
+        letterText: readableTextOn(palette.text),
+      };
+    default:
+      return {
+        fill: rgba(palette.secondary, 0.96),
+        stroke: rgba(palette.border, 0.24),
+        letterFill: palette.accent,
+        letterText: readableTextOn(palette.accent),
+      };
+  }
+}
+
+function drawOptionCard(ctx, opt, x, y, w, h, palette, config) {
+  const style = getOptionStyle(palette, config.optionVariant);
+  if (config.optionVariant === "glass") drawGlowRect(ctx, x, y, w, h, 24, palette.accent, 0.14, 24);
+  fillRoundRect(ctx, x, y, w, h, 24, style.fill, style.stroke, config.optionVariant === "outline" ? 3 : 2);
+
+  const badgeSize = config.columns === 2 ? 44 : 48;
+  fillRoundRect(ctx, x + 18, y + 18, badgeSize, badgeSize, 18, style.letterFill);
+  ctx.fillStyle = style.letterText;
+  ctx.font = `bold ${config.columns === 2 ? 22 : 24}px ${FONT}`;
+  ctx.textAlign = "center";
+  ctx.fillText(opt.key, x + 18 + badgeSize / 2, y + 18 + badgeSize / 2 + 8);
+  ctx.textAlign = "left";
+
+  const innerX = x + 18 + badgeSize + 18;
+  const innerW = w - (innerX - x) - 20;
+  const sizeSet = config.columns === 2 ? [22, 20, 18] : [24, 22, 20, 18];
+  const fitted = fitWrappedText(ctx, opt.text, innerW, sizeSet, config.columns === 2 ? 3 : 2, "bold");
+  const lineHeight = fitted.size + 10;
+  const blockHeight = fitted.lines.length * lineHeight;
+  let textY = y + h / 2 - blockHeight / 2 + fitted.size - 4;
+
+  ctx.fillStyle = palette.text;
+  ctx.font = `bold ${fitted.size}px ${FONT}`;
+  for (const line of fitted.lines) {
+    ctx.fillText(line, innerX, textY);
+    textY += lineHeight;
+  }
+}
+
+function drawOptionsBlock(ctx, W, question, palette, config, startY) {
+  const opts = getOptions(question);
+  const columns = config.columns;
+  const gap = 18;
+  const outerX = 42;
+  const outerW = W - 84;
+  const colW = columns === 2 ? (outerW - gap) / 2 : outerW;
+  const boxH = columns === 2 ? 122 : 88;
+
+  for (let i = 0; i < opts.length; i++) {
+    const row = columns === 2 ? Math.floor(i / 2) : i;
+    const col = columns === 2 ? i % 2 : 0;
+    const x = outerX + col * (colW + gap);
+    const y = startY + row * (boxH + gap);
+    drawOptionCard(ctx, opts[i], x, y, colW, boxH, palette, config);
+  }
+
+  return startY + (columns === 2 ? 2 * boxH + gap : 4 * boxH + 3 * gap);
+}
+
+function drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config) {
+  const x = 42;
+  const y = H - 210;
+  const w = W - 84;
+  const h = 118;
+  const ctaText = getCtaText(qNum, styleIndex);
+  const ctaTextColor = readableTextOn(palette.accent);
+
+  const grad = ctx.createLinearGradient(x, y, x + w, y + h);
+  grad.addColorStop(0, palette.accent);
+  grad.addColorStop(1, palette.border || palette.accent);
+
+  if (config.ctaVariant === "glow" || config.ctaVariant === "electric") {
+    drawGlowRect(ctx, x, y, w, h, 30, palette.accent, 0.3, 40);
+  }
+
+  fillRoundRect(ctx, x, y, w, h, 30, grad, rgba(palette.text, 0.12), 1.5);
+
+  if (config.ctaVariant === "burst") {
+    for (let i = 0; i < 10; i++) {
+      drawCircle(ctx, x + 70 + i * 90, y + 20 + (i % 2) * 70, 8, rgba(ctaTextColor, 0.18));
+    }
+  } else {
+    fillRoundRect(ctx, x + 20, y + 18, 110, 34, 17, rgba(ctaTextColor, 0.16));
+    fillRoundRect(ctx, x + w - 130, y + 66, 90, 28, 14, rgba(ctaTextColor, 0.16));
+  }
+
+  const fitted = fitWrappedText(ctx, ctaText, w - 120, [31, 29, 27, 25], 2, "bold");
+  const lineHeight = fitted.size + 10;
+  const totalHeight = fitted.lines.length * lineHeight;
+  let textY = y + h / 2 - totalHeight / 2 + fitted.size - 4;
+
+  ctx.fillStyle = ctaTextColor;
+  ctx.font = `bold ${fitted.size}px ${FONT}`;
+  ctx.textAlign = "center";
+  for (const line of fitted.lines) {
+    ctx.fillText(line, W / 2, textY);
+    textY += lineHeight;
+  }
+  ctx.textAlign = "left";
+}
+
+function drawFooter(ctx, W, H, palette, align) {
+  const footer = "🌐 farhan-mcq.com | Farhan MCQ";
+  ctx.fillStyle = rgba(palette.text, 0.72);
+  ctx.font = `18px ${FONT}`;
+
+  if (align === "center") {
+    ctx.textAlign = "center";
+    ctx.fillText(footer, W / 2, H - 34);
+  } else if (align === "right") {
+    ctx.textAlign = "right";
+    ctx.fillText(footer, W - 40, H - 34);
+  } else {
+    ctx.textAlign = "left";
+    ctx.fillText(footer, 40, H - 34);
+  }
+  ctx.textAlign = "left";
+}
+
+async function renderStyle(ctx, W, H, question, qNum, palette, config, styleIndex) {
+  drawBackground(ctx, W, H, palette, config.bgVariant);
+
+  let ownerOffset = 0;
+  if (config.ownerImage) {
+    const ownerImg = await loadOwnerImage(config.ownerImage);
+    ownerOffset = drawOwnerPhoto(ctx, W, palette, config.ownerPosition, ownerImg);
+  }
+
+  const headerBottom = drawHeader(ctx, W, question, qNum, palette, config) + ownerOffset;
+  const questionBottom = drawQuestionBlock(ctx, W, question, palette, config, headerBottom + 20);
+  drawOptionsBlock(ctx, W, question, palette, config, questionBottom + 24);
+  drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config);
+  drawFooter(ctx, W, H, palette, config.footerAlign);
+}
 
 // ══════════════════════════════════════════════════════════════════
 // 24 DIFFERENT SLIDE LAYOUT GENERATORS
 // ══════════════════════════════════════════════════════════════════
 
-// Style 1: Classic Card - Clean professional look
 async function style1(ctx, W, H, question, qNum, palette) {
-  // Background
-  ctx.fillStyle = palette.bg;
-  ctx.fillRect(0, 0, W, H);
-
-  // Top accent bar
-  ctx.fillStyle = palette.accent;
-  ctx.fillRect(0, 0, W, 8);
-
-  // Question number badge
-  ctx.fillStyle = palette.accent;
-  roundedRect(ctx, 40, 40, 120, 50, 25);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 24px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`প্রশ্ন #${qNum}`, 100, 72);
-  ctx.textAlign = "left";
-
-  // Brand name
-  ctx.fillStyle = palette.accent;
-  ctx.font = `bold 28px ${FONT}`;
-  ctx.textAlign = "right";
-  ctx.fillText("Farhan MCQ", W - 40, 72);
-  ctx.textAlign = "left";
-
-  // Category
-  ctx.fillStyle = palette.text + "99";
-  ctx.font = `20px ${FONT}`;
-  ctx.fillText(question.examCategoryName, 40, 130);
-
-  // Question text
-  ctx.fillStyle = palette.text;
-  ctx.font = `bold 32px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 180;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 44;
-  }
-
-  // Options
-  y += 30;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? palette.accent + "30" : palette.secondary;
-    roundedRect(ctx, 40, y, W - 80, 60, 12);
-    ctx.fill();
-    if (isCorrect) {
-      ctx.strokeStyle = palette.accent;
-      ctx.lineWidth = 3;
-      ctx.stroke();
-    }
-    ctx.fillStyle = palette.text;
-    ctx.font = `bold 22px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 70, y + 38);
-    if (isCorrect) {
-      ctx.fillStyle = palette.accent;
-      ctx.font = `bold 18px ${FONT}`;
-      ctx.textAlign = "right";
-      ctx.fillText("✓ সঠিক", W - 60, y + 38);
-      ctx.textAlign = "left";
-    }
-    y += 74;
-  }
-
-  // Footer
-  ctx.fillStyle = palette.text + "66";
-  ctx.font = `18px ${FONT}`;
-  ctx.fillText("🌐 farhan-mcq.com | ফলো করুন!", 40, H - 40);
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[0], 0);
 }
 
-// Style 2: Gradient Header - Bold gradient top section
 async function style2(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = palette.secondary;
-  ctx.fillRect(0, 0, W, H);
-
-  // Gradient header
-  const grad = ctx.createLinearGradient(0, 0, W, 200);
-  grad.addColorStop(0, palette.accent);
-  grad.addColorStop(1, palette.bg === "#ffffff" ? "#6366f1" : palette.accent + "cc");
-  ctx.fillStyle = grad;
-  roundedRect(ctx, 0, 0, W, 220, 0);
-  ctx.fill();
-
-  // Question number in header
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 48px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`প্রশ্ন নং ${qNum}`, W / 2, 80);
-
-  // Category in header
-  ctx.font = `22px ${FONT}`;
-  ctx.fillText(question.examCategoryName, W / 2, 130);
-
-  // Brand
-  ctx.font = `bold 20px ${FONT}`;
-  ctx.fillText("📚 Farhan MCQ", W / 2, 180);
-  ctx.textAlign = "left";
-
-  // Question body
-  ctx.fillStyle = palette.text;
-  ctx.font = `bold 30px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 270;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 42;
-  }
-
-  // Options in 2x2 grid
-  y += 20;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  const gridW = (W - 100) / 2;
-  for (let i = 0; i < 4; i++) {
-    const col = i % 2;
-    const row = Math.floor(i / 2);
-    const ox = 40 + col * (gridW + 20);
-    const oy = y + row * 80;
-    const isCorrect = opts[i].letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#d1fae5" : "#ffffff";
-    roundedRect(ctx, ox, oy, gridW, 65, 12);
-    ctx.fill();
-    if (isCorrect) {
-      ctx.strokeStyle = "#10b981";
-      ctx.lineWidth = 3;
-      ctx.stroke();
-    }
-    ctx.fillStyle = palette.text;
-    ctx.font = `bold 20px ${FONT}`;
-    ctx.fillText(`${opts[i].key}) ${opts[i].text}`, ox + 16, oy + 40);
-  }
-
-  // Footer
-  ctx.fillStyle = palette.text + "88";
-  ctx.font = `16px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("প্রতিদিন ২৪টি নতুন প্রশ্ন | farhan-mcq.com", W / 2, H - 30);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[1], 1);
 }
 
-// Style 3: Dark Mode Premium
 async function style3(ctx, W, H, question, qNum, palette) {
-  // Dark background
-  ctx.fillStyle = "#0f172a";
-  ctx.fillRect(0, 0, W, H);
-
-  // Glow effect circle
-  ctx.fillStyle = palette.accent + "15";
-  ctx.beginPath();
-  ctx.arc(W - 100, 100, 200, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Number circle
-  ctx.fillStyle = palette.accent;
-  ctx.beginPath();
-  ctx.arc(80, 80, 40, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 28px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`${qNum}`, 80, 88);
-  ctx.textAlign = "left";
-
-  // Brand
-  ctx.fillStyle = palette.accent;
-  ctx.font = `bold 26px ${FONT}`;
-  ctx.fillText("Farhan MCQ", 140, 88);
-
-  // Divider
-  ctx.strokeStyle = palette.accent + "44";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(40, 140);
-  ctx.lineTo(W - 40, 140);
-  ctx.stroke();
-
-  // Category
-  ctx.fillStyle = palette.accent;
-  ctx.font = `18px ${FONT}`;
-  ctx.fillText(`📂 ${question.examCategoryName} | ${question.subExamCategoryName}`, 40, 175);
-
-  // Question
-  ctx.fillStyle = "#f1f5f9";
-  ctx.font = `bold 30px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 220;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 42;
-  }
-
-  // Options
-  y += 30;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#10b98133" : "#1e293b";
-    roundedRect(ctx, 40, y, W - 80, 58, 10);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#10b981" : "#334155";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = isCorrect ? "#6ee7b7" : "#e2e8f0";
-    ctx.font = `22px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 70, y + 36);
-    y += 72;
-  }
-
-  // Footer
-  ctx.fillStyle = "#94a3b8";
-  ctx.font = `16px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("🌐 farhan-mcq.com | চাকরি প্রস্তুতির সেরা প্ল্যাটফর্ম", W / 2, H - 30);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[2], 2);
 }
 
-// Style 4: Split Layout - Left accent panel
 async function style4(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, W, H);
-
-  // Left accent panel
-  const panelW = 100;
-  const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, palette.accent);
-  grad.addColorStop(1, "#7c3aed");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, panelW, H);
-
-  // Question number on panel (vertical)
-  ctx.save();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 36px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`#${qNum}`, panelW / 2, 60);
-  ctx.restore();
-
-  // Brand on panel
-  ctx.save();
-  ctx.translate(panelW / 2, H / 2);
-  ctx.rotate(-Math.PI / 2);
-  ctx.fillStyle = "#ffffff99";
-  ctx.font = `bold 18px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("FARHAN MCQ", 0, 6);
-  ctx.restore();
-
-  // Content area
-  const cx = panelW + 40;
-
-  // Category
-  ctx.fillStyle = palette.accent;
-  ctx.font = `bold 18px ${FONT}`;
-  ctx.fillText(question.examCategoryName, cx, 50);
-
-  // Question
-  ctx.fillStyle = "#1a1a2e";
-  ctx.font = `bold 28px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - panelW - 100);
-  let y = 90;
-  for (const line of lines) {
-    ctx.fillText(line, cx, y);
-    y += 40;
-  }
-
-  // Options
-  y += 30;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#ecfdf5" : "#f9fafb";
-    roundedRect(ctx, cx, y, W - panelW - 90, 55, 10);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#10b981" : "#e5e7eb";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "#1f2937";
-    ctx.font = `20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, cx + 16, y + 34);
-    if (isCorrect) {
-      ctx.fillStyle = "#10b981";
-      ctx.font = `bold 16px ${FONT}`;
-      ctx.textAlign = "right";
-      ctx.fillText("✓", W - 50, y + 34);
-      ctx.textAlign = "left";
-    }
-    y += 68;
-  }
-
-  // Footer
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText("farhan-mcq.com", cx, H - 30);
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[3], 3);
 }
 
-// Style 5: Bubble Style - Rounded modern
 async function style5(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = palette.bg;
-  ctx.fillRect(0, 0, W, H);
-
-  // Decorative circles
-  ctx.fillStyle = palette.accent + "15";
-  ctx.beginPath();
-  ctx.arc(W - 80, 80, 120, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.arc(60, H - 60, 80, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Header bubble
-  ctx.fillStyle = palette.accent;
-  roundedRect(ctx, 30, 30, W - 60, 80, 40);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 30px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`📚 প্রশ্ন নং ${qNum} | Farhan MCQ`, W / 2, 80);
-  ctx.textAlign = "left";
-
-  // Sub category
-  ctx.fillStyle = palette.text + "88";
-  ctx.font = `18px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`${question.examCategoryName} — ${question.subExamCategoryName}`, W / 2, 140);
-  ctx.textAlign = "left";
-
-  // Question in bubble
-  ctx.fillStyle = palette.secondary;
-  roundedRect(ctx, 40, 165, W - 80, 140, 20);
-  ctx.fill();
-  ctx.fillStyle = palette.text;
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 140);
-  let y = 200;
-  for (const line of lines) {
-    ctx.textAlign = "center";
-    ctx.fillText(line, W / 2, y);
-    y += 36;
-  }
-  ctx.textAlign = "left";
-
-  // Options as bubbles
-  y = 330;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#d1fae5" : "#ffffff";
-    roundedRect(ctx, 50, y, W - 100, 55, 28);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#10b981" : "#e5e7eb";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = palette.text;
-    ctx.font = `20px ${FONT}`;
-    ctx.textAlign = "center";
-    ctx.fillText(`${opt.key}) ${opt.text}${isCorrect ? " ✅" : ""}`, W / 2, y + 34);
-    y += 68;
-  }
-  ctx.textAlign = "left";
-
-  // Footer
-  ctx.fillStyle = palette.text + "66";
-  ctx.font = `16px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("প্রতিদিন চর্চা করুন | farhan-mcq.com", W / 2, H - 30);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[4], 4);
 }
 
-// Style 6: Minimalist with accent line
 async function style6(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, W, H);
-
-  // Top thin line
-  ctx.fillStyle = palette.accent;
-  ctx.fillRect(40, 30, 60, 4);
-
-  // Question number
-  ctx.fillStyle = palette.accent;
-  ctx.font = `bold 18px ${FONT}`;
-  ctx.fillText(`Question ${qNum}`, 40, 65);
-
-  // Brand
-  ctx.fillStyle = "#9ca3af";
-  ctx.font = `16px ${FONT}`;
-  ctx.textAlign = "right";
-  ctx.fillText("Farhan MCQ", W - 40, 65);
-  ctx.textAlign = "left";
-
-  // Category
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(question.examCategoryName, 40, 100);
-
-  // Large question text
-  ctx.fillStyle = "#111827";
-  ctx.font = `bold 34px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 160;
-  for (const line of lines) {
-    ctx.fillText(line, 40, y);
-    y += 48;
-  }
-
-  // Accent line before options
-  y += 10;
-  ctx.fillStyle = palette.accent;
-  ctx.fillRect(40, y, W - 80, 3);
-  y += 30;
-
-  // Options
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    if (isCorrect) {
-      ctx.fillStyle = palette.accent;
-      ctx.fillRect(40, y - 4, 4, 30);
-    }
-    ctx.fillStyle = isCorrect ? palette.accent : "#374151";
-    ctx.font = `${isCorrect ? "bold " : ""}22px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}${isCorrect ? " ←" : ""}`, 56, y + 18);
-    y += 50;
-  }
-
-  // Bottom
-  ctx.fillStyle = "#d1d5db";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | সরকারি চাকরি প্রস্তুতি", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[5], 5);
 }
 
-// Style 7: Instagram Story Style (bold colors)
 async function style7(ctx, W, H, question, qNum, palette) {
-  // Full gradient background
-  const grad = ctx.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0, "#667eea");
-  grad.addColorStop(1, "#764ba2");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
-
-  // Semi-transparent card
-  ctx.fillStyle = "#ffffff22";
-  roundedRect(ctx, 30, 30, W - 60, H - 60, 24);
-  ctx.fill();
-
-  // Question number
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 60px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`#${qNum}`, W / 2, 100);
-
-  // Brand
-  ctx.font = `bold 22px ${FONT}`;
-  ctx.fillText("Farhan MCQ", W / 2, 140);
-
-  // Category
-  ctx.font = `18px ${FONT}`;
-  ctx.fillStyle = "#ffffffcc";
-  ctx.fillText(question.examCategoryName, W / 2, 175);
-
-  // Question
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 28px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 120);
-  let y = 230;
-  for (const line of lines) {
-    ctx.fillText(line, W / 2, y);
-    y += 40;
-  }
-
-  // Options
-  y += 20;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#10b981cc" : "#ffffff33";
-    roundedRect(ctx, 50, y, W - 100, 55, 14);
-    ctx.fill();
-    ctx.fillStyle = "#ffffff";
-    ctx.font = `bold 20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, W / 2, y + 34);
-    y += 68;
-  }
-  ctx.textAlign = "left";
-
-  // Footer
-  ctx.fillStyle = "#ffffffaa";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("💡 প্রতিদিন নতুন প্রশ্ন | farhan-mcq.com", W / 2, H - 40);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[6], 6);
 }
 
-// Style 8: Newspaper/Editorial Style
 async function style8(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#faf9f6";
-  ctx.fillRect(0, 0, W, H);
-
-  // Top double border
-  ctx.strokeStyle = "#1a1a2e";
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(30, 30);
-  ctx.lineTo(W - 30, 30);
-  ctx.stroke();
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(30, 36);
-  ctx.lineTo(W - 30, 36);
-  ctx.stroke();
-
-  // Header text
-  ctx.fillStyle = "#1a1a2e";
-  ctx.font = `bold 36px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("FARHAN MCQ", W / 2, 75);
-  ctx.font = `16px ${FONT}`;
-  ctx.fillStyle = "#6b7280";
-  ctx.fillText(`প্রশ্ন সংখ্যা: ${qNum} | ${question.examCategoryName}`, W / 2, 105);
-  ctx.textAlign = "left";
-
-  // Separator
-  ctx.strokeStyle = "#1a1a2e";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(30, 120);
-  ctx.lineTo(W - 30, 120);
-  ctx.stroke();
-
-  // Question
-  ctx.fillStyle = "#1a1a2e";
-  ctx.font = `bold 28px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 170;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 40;
-  }
-
-  // Options
-  y += 30;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#1a1a2e" : "#4b5563";
-    ctx.font = `${isCorrect ? "bold " : ""}22px ${FONT}`;
-    ctx.fillText(`${opt.key}. ${opt.text}${isCorrect ? " ★" : ""}`, 60, y);
-    y += 48;
-  }
-
-  // Bottom border
-  ctx.strokeStyle = "#1a1a2e";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(30, H - 50);
-  ctx.lineTo(W - 30, H - 50);
-  ctx.stroke();
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(30, H - 44);
-  ctx.lineTo(W - 30, H - 44);
-  ctx.stroke();
-
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | চাকরি পরীক্ষা প্রস্তুতি", W / 2, H - 20);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[7], 7);
 }
 
-// Style 9: Neon Glow on Dark
 async function style9(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#0a0a0a";
-  ctx.fillRect(0, 0, W, H);
-
-  // Neon border
-  ctx.strokeStyle = "#00ff88";
-  ctx.lineWidth = 3;
-  ctx.shadowColor = "#00ff88";
-  ctx.shadowBlur = 15;
-  roundedRect(ctx, 20, 20, W - 40, H - 40, 16);
-  ctx.stroke();
-  ctx.shadowBlur = 0;
-
-  // Question number with glow
-  ctx.fillStyle = "#00ff88";
-  ctx.shadowColor = "#00ff88";
-  ctx.shadowBlur = 10;
-  ctx.font = `bold 44px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`⚡ প্রশ্ন ${qNum}`, W / 2, 80);
-  ctx.shadowBlur = 0;
-
-  // Brand
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 22px ${FONT}`;
-  ctx.fillText("Farhan MCQ", W / 2, 120);
-
-  // Category
-  ctx.fillStyle = "#00ff8899";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(question.examCategoryName, W / 2, 150);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 120);
-  let y = 200;
-  for (const line of lines) {
-    ctx.textAlign = "center";
-    ctx.fillText(line, W / 2, y);
-    y += 38;
-  }
-  ctx.textAlign = "left";
-
-  // Options
-  y += 30;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    if (isCorrect) {
-      ctx.strokeStyle = "#00ff88";
-      ctx.lineWidth = 2;
-      ctx.shadowColor = "#00ff88";
-      ctx.shadowBlur = 8;
-      roundedRect(ctx, 50, y, W - 100, 52, 10);
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-    }
-    ctx.fillStyle = isCorrect ? "#00ff88" : "#cccccc";
-    ctx.font = `${isCorrect ? "bold " : ""}20px ${FONT}`;
-    ctx.textAlign = "center";
-    ctx.fillText(`${opt.key}) ${opt.text}`, W / 2, y + 34);
-    y += 64;
-  }
-  ctx.textAlign = "left";
-
-  // Footer
-  ctx.fillStyle = "#666666";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("🌐 farhan-mcq.com", W / 2, H - 35);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[8], 8);
 }
 
-// Style 10: Warm Sunset Theme
 async function style10(ctx, W, H, question, qNum, palette) {
-  const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, "#fff7ed");
-  grad.addColorStop(1, "#fef3c7");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
-
-  // Top banner
-  ctx.fillStyle = "#ea580c";
-  roundedRect(ctx, 0, 0, W, 70, 0);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 28px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`Farhan MCQ — প্রশ্ন #${qNum}`, W / 2, 46);
-  ctx.textAlign = "left";
-
-  // Category badge
-  ctx.fillStyle = "#ea580c22";
-  roundedRect(ctx, W / 2 - 100, 85, 200, 32, 16);
-  ctx.fill();
-  ctx.fillStyle = "#ea580c";
-  ctx.font = `16px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(question.examCategoryName, W / 2, 107);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#431407";
-  ctx.font = `bold 28px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 155;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 40;
-  }
-
-  // Options
-  y += 20;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#fed7aa" : "#ffffff";
-    roundedRect(ctx, 40, y, W - 80, 55, 12);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#ea580c" : "#e5e7eb";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "#431407";
-    ctx.font = `20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 60, y + 34);
-    if (isCorrect) {
-      ctx.fillStyle = "#ea580c";
-      ctx.font = `bold 16px ${FONT}`;
-      ctx.textAlign = "right";
-      ctx.fillText("✓ সঠিক", W - 60, y + 34);
-      ctx.textAlign = "left";
-    }
-    y += 68;
-  }
-
-  ctx.fillStyle = "#9a3412";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("🔥 farhan-mcq.com | প্রতিদিন প্র্যাকটিস!", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[9], 9);
 }
 
-// Style 11: Blue Ocean Professional
 async function style11(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#f0f9ff";
-  ctx.fillRect(0, 0, W, H);
-
-  // Side accent
-  ctx.fillStyle = "#0284c7";
-  ctx.fillRect(0, 0, 12, H);
-
-  // Header area
-  ctx.fillStyle = "#0284c7";
-  ctx.font = `bold 24px ${FONT}`;
-  ctx.fillText(`📖 Farhan MCQ`, 40, 50);
-
-  // Question badge
-  ctx.fillStyle = "#0284c7";
-  roundedRect(ctx, W - 160, 25, 130, 40, 20);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 20px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`প্রশ্ন ${qNum}`, W - 95, 52);
-  ctx.textAlign = "left";
-
-  // Category
-  ctx.fillStyle = "#0c4a6e";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(`${question.examCategoryName} > ${question.subExamCategoryName}`, 40, 90);
-
-  // Card for question
-  ctx.fillStyle = "#ffffff";
-  roundedRect(ctx, 30, 110, W - 60, 140, 12);
-  ctx.fill();
-  ctx.shadowColor = "#00000011";
-  ctx.fillStyle = "#0f172a";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 120);
-  let y = 150;
-  for (const line of lines) {
-    ctx.fillText(line, 55, y);
-    y += 38;
-  }
-
-  // Options
-  y = 280;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#e0f2fe" : "#ffffff";
-    roundedRect(ctx, 40, y, W - 80, 52, 10);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#0284c7" : "#e2e8f0";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "#0f172a";
-    ctx.font = `20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 65, y + 33);
-    y += 64;
-  }
-
-  ctx.fillStyle = "#64748b";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | বাংলাদেশ চাকরি প্রস্তুতি", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[10], 10);
 }
 
-// Style 12: Geometric Pattern Background
 async function style12(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#1e1b4b";
-  ctx.fillRect(0, 0, W, H);
-
-  // Geometric pattern
-  ctx.strokeStyle = "#4f46e522";
-  ctx.lineWidth = 1;
-  for (let i = 0; i < W; i += 40) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i, H);
-    ctx.stroke();
-  }
-  for (let i = 0; i < H; i += 40) {
-    ctx.beginPath();
-    ctx.moveTo(0, i);
-    ctx.lineTo(W, i);
-    ctx.stroke();
-  }
-
-  // Main card overlay
-  ctx.fillStyle = "#ffffffee";
-  roundedRect(ctx, 40, 60, W - 80, H - 120, 20);
-  ctx.fill();
-
-  // Question number
-  ctx.fillStyle = "#4f46e5";
-  ctx.font = `bold 40px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`প্রশ্ন ${qNum}`, W / 2, 120);
-
-  // Brand
-  ctx.font = `bold 20px ${FONT}`;
-  ctx.fillText("Farhan MCQ", W / 2, 155);
-
-  // Category
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(question.examCategoryName, W / 2, 185);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#1e1b4b";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 160);
-  let y = 225;
-  for (const line of lines) {
-    ctx.textAlign = "center";
-    ctx.fillText(line, W / 2, y);
-    y += 38;
-  }
-  ctx.textAlign = "left";
-
-  // Options
-  y += 20;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#ede9fe" : "#f9fafb";
-    roundedRect(ctx, 70, y, W - 140, 50, 10);
-    ctx.fill();
-    if (isCorrect) {
-      ctx.strokeStyle = "#7c3aed";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    }
-    ctx.fillStyle = "#1e1b4b";
-    ctx.font = `20px ${FONT}`;
-    ctx.textAlign = "center";
-    ctx.fillText(`${opt.key}) ${opt.text}${isCorrect ? " ✓" : ""}`, W / 2, y + 32);
-    y += 62;
-  }
-  ctx.textAlign = "left";
-
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com", W / 2, H - 45);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[11], 11);
 }
 
-// Style 13: Diagonal Split
 async function style13(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, W, H);
-
-  // Diagonal accent
-  ctx.fillStyle = palette.accent;
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.lineTo(W, 0);
-  ctx.lineTo(W, 160);
-  ctx.lineTo(0, 100);
-  ctx.closePath();
-  ctx.fill();
-
-  // Header text
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 32px ${FONT}`;
-  ctx.fillText(`প্রশ্ন #${qNum}`, 40, 55);
-  ctx.font = `20px ${FONT}`;
-  ctx.textAlign = "right";
-  ctx.fillText("Farhan MCQ", W - 40, 55);
-  ctx.textAlign = "left";
-
-  // Category
-  ctx.fillStyle = "#ffffff99";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(question.examCategoryName, 40, 85);
-
-  // Question
-  ctx.fillStyle = "#1f2937";
-  ctx.font = `bold 28px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 180;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 40;
-  }
-
-  // Options
-  y += 20;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? palette.accent + "20" : "#f3f4f6";
-    roundedRect(ctx, 40, y, W - 80, 55, 10);
-    ctx.fill();
-    if (isCorrect) {
-      ctx.strokeStyle = palette.accent;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    }
-    ctx.fillStyle = "#1f2937";
-    ctx.font = `20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 60, y + 34);
-    y += 68;
-  }
-
-  ctx.fillStyle = "#9ca3af";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | সরকারি চাকরি পরীক্ষা প্রস্তুতি", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[12], 12);
 }
 
-// Style 14: Flashcard Style (Front/Back feel)
 async function style14(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#f8fafc";
-  ctx.fillRect(0, 0, W, H);
-
-  // Card shadow effect
-  ctx.fillStyle = "#00000011";
-  roundedRect(ctx, 35, 35, W - 60, H - 60, 20);
-  ctx.fill();
-
-  // Main card
-  ctx.fillStyle = "#ffffff";
-  roundedRect(ctx, 30, 30, W - 60, H - 60, 20);
-  ctx.fill();
-  ctx.strokeStyle = "#e5e7eb";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  // Top badge
-  ctx.fillStyle = "#ef4444";
-  roundedRect(ctx, W / 2 - 70, 45, 140, 36, 18);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 18px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`প্রশ্ন নং ${qNum}`, W / 2, 70);
-  ctx.textAlign = "left";
-
-  // Brand
-  ctx.fillStyle = "#ef4444";
-  ctx.font = `bold 20px ${FONT}`;
-  ctx.fillText("📚 Farhan MCQ", 55, 115);
-
-  // Category
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `16px ${FONT}`;
-  ctx.textAlign = "right";
-  ctx.fillText(question.examCategoryName, W - 55, 115);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#111827";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 140);
-  let y = 160;
-  for (const line of lines) {
-    ctx.fillText(line, 55, y);
-    y += 38;
-  }
-
-  // Divider
-  y += 10;
-  ctx.strokeStyle = "#e5e7eb";
-  ctx.setLineDash([5, 5]);
-  ctx.beginPath();
-  ctx.moveTo(55, y);
-  ctx.lineTo(W - 55, y);
-  ctx.stroke();
-  ctx.setLineDash([]);
-  y += 20;
-
-  // Options
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#fef2f2" : "#f9fafb";
-    roundedRect(ctx, 55, y, W - 110, 50, 8);
-    ctx.fill();
-    if (isCorrect) {
-      ctx.strokeStyle = "#ef4444";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    }
-    ctx.fillStyle = isCorrect ? "#ef4444" : "#374151";
-    ctx.font = `${isCorrect ? "bold " : ""}20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 75, y + 32);
-    y += 60;
-  }
-
-  ctx.fillStyle = "#9ca3af";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("প্রতিদিন প্র্যাকটিস | farhan-mcq.com", W / 2, H - 50);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[13], 13);
 }
 
-// Style 15: Green Nature Theme
 async function style15(ctx, W, H, question, qNum, palette) {
-  const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, "#ecfdf5");
-  grad.addColorStop(1, "#d1fae5");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
-
-  // Leaf-like decorative element
-  ctx.fillStyle = "#10b98122";
-  ctx.beginPath();
-  ctx.arc(-50, -50, 200, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.arc(W + 30, H + 30, 150, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Header
-  ctx.fillStyle = "#065f46";
-  ctx.font = `bold 30px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`🌿 প্রশ্ন ${qNum} — Farhan MCQ`, W / 2, 60);
-
-  ctx.fillStyle = "#047857";
-  ctx.font = `18px ${FONT}`;
-  ctx.fillText(question.examCategoryName, W / 2, 95);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#064e3b";
-  ctx.font = `bold 28px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 145;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 40;
-  }
-
-  // Options
-  y += 25;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#a7f3d0" : "#ffffff";
-    roundedRect(ctx, 40, y, W - 80, 55, 12);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#059669" : "#d1fae5";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "#064e3b";
-    ctx.font = `20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 60, y + 35);
-    if (isCorrect) {
-      ctx.fillStyle = "#059669";
-      ctx.font = `bold 16px ${FONT}`;
-      ctx.textAlign = "right";
-      ctx.fillText("✓ সঠিক উত্তর", W - 55, y + 35);
-      ctx.textAlign = "left";
-    }
-    y += 68;
-  }
-
-  ctx.fillStyle = "#047857";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | প্রতিদিন শিখুন, এগিয়ে যান!", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[14], 14);
 }
 
-// Style 16: Purple Galaxy
 async function style16(ctx, W, H, question, qNum, palette) {
-  const grad = ctx.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0, "#1e1b4b");
-  grad.addColorStop(0.5, "#312e81");
-  grad.addColorStop(1, "#4c1d95");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
-
-  // Stars effect
-  ctx.fillStyle = "#ffffff";
-  for (let i = 0; i < 50; i++) {
-    ctx.globalAlpha = Math.random() * 0.5 + 0.2;
-    ctx.beginPath();
-    ctx.arc(Math.random() * W, Math.random() * H, Math.random() * 2, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  ctx.globalAlpha = 1;
-
-  // Header
-  ctx.fillStyle = "#e9d5ff";
-  ctx.font = `bold 36px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`✨ প্রশ্ন #${qNum}`, W / 2, 65);
-  ctx.font = `bold 20px ${FONT}`;
-  ctx.fillStyle = "#c4b5fd";
-  ctx.fillText("Farhan MCQ", W / 2, 100);
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(question.examCategoryName, W / 2, 130);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 180;
-  for (const line of lines) {
-    ctx.textAlign = "center";
-    ctx.fillText(line, W / 2, y);
-    y += 38;
-  }
-  ctx.textAlign = "left";
-
-  // Options
-  y += 25;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#7c3aed55" : "#1e1b4b99";
-    roundedRect(ctx, 50, y, W - 100, 52, 12);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#a78bfa" : "#4c1d9566";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = isCorrect ? "#e9d5ff" : "#c4b5fd";
-    ctx.font = `20px ${FONT}`;
-    ctx.textAlign = "center";
-    ctx.fillText(`${opt.key}) ${opt.text}`, W / 2, y + 34);
-    y += 64;
-  }
-  ctx.textAlign = "left";
-
-  ctx.fillStyle = "#a78bfa88";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | জ্ঞানের আলো ছড়াই", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[15], 15);
 }
 
-// Style 17: Bold Typography Focus
 async function style17(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#fafafa";
-  ctx.fillRect(0, 0, W, H);
-
-  // Large number in background
-  ctx.fillStyle = "#f3f4f6";
-  ctx.font = `bold 200px ${FONT}`;
-  ctx.textAlign = "right";
-  ctx.fillText(`${qNum}`, W - 20, 200);
-  ctx.textAlign = "left";
-
-  // Brand
-  ctx.fillStyle = palette.accent;
-  ctx.font = `bold 22px ${FONT}`;
-  ctx.fillText("Farhan MCQ", 40, 45);
-
-  // Category
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(question.examCategoryName, 40, 75);
-
-  // Question (large bold)
-  ctx.fillStyle = "#111827";
-  ctx.font = `bold 32px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 140;
-  for (const line of lines) {
-    ctx.fillText(line, 40, y);
-    y += 46;
-  }
-
-  // Accent underline
-  y += 5;
-  ctx.fillStyle = palette.accent;
-  ctx.fillRect(40, y, 80, 4);
-  y += 30;
-
-  // Options
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? palette.accent : "#6b7280";
-    ctx.font = `${isCorrect ? "bold 24" : "22"}px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 50, y);
-    if (isCorrect) {
-      const tw = ctx.measureText(`${opt.key}) ${opt.text}`).width;
-      ctx.fillStyle = palette.accent;
-      ctx.fillRect(50, y + 6, tw, 3);
-    }
-    y += 50;
-  }
-
-  ctx.fillStyle = "#d1d5db";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[16], 16);
 }
 
-// Style 18: Bordered Card with Owner Photo
 async function style18(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, W, H);
-
-  // Thick colored border
-  ctx.strokeStyle = palette.accent;
-  ctx.lineWidth = 8;
-  roundedRect(ctx, 15, 15, W - 30, H - 30, 16);
-  ctx.stroke();
-
-  // Corner decorations
-  ctx.fillStyle = palette.accent;
-  roundedRect(ctx, 15, 15, 50, 50, 8);
-  ctx.fill();
-  roundedRect(ctx, W - 65, 15, 50, 50, 8);
-  ctx.fill();
-
-  // Header with possible owner photo
-  ctx.fillStyle = palette.accent;
-  ctx.font = `bold 26px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`Farhan MCQ — প্রশ্ন ${qNum}`, W / 2, 60);
-
-  // Try to load owner image
-  const ownerImg = await loadOwnerImage(1);
-  if (ownerImg) {
-    drawCircularImage(ctx, ownerImg, W / 2 - 25, 75, 25);
-  }
-
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(question.examCategoryName, W / 2, ownerImg ? 140 : 95);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#1f2937";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 120);
-  let y = ownerImg ? 175 : 135;
-  for (const line of lines) {
-    ctx.fillText(line, 45, y);
-    y += 38;
-  }
-
-  // Options
-  y += 20;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? palette.accent + "22" : "#f9fafb";
-    roundedRect(ctx, 40, y, W - 80, 52, 10);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? palette.accent : "#e5e7eb";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "#1f2937";
-    ctx.font = `20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 60, y + 33);
-    y += 62;
-  }
-
-  ctx.fillStyle = palette.accent;
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | ফলো করুন!", W / 2, H - 35);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[17], 17);
 }
 
-// Style 19: Rounded Tags Style
 async function style19(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#f1f5f9";
-  ctx.fillRect(0, 0, W, H);
-
-  // Top colored section
-  ctx.fillStyle = "#0f172a";
-  roundedRect(ctx, 0, 0, W, 130, 0);
-  ctx.fill();
-
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 28px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("Farhan MCQ", W / 2, 45);
-
-  // Tags row
-  ctx.fillStyle = "#38bdf8";
-  roundedRect(ctx, W / 2 - 140, 60, 120, 30, 15);
-  ctx.fill();
-  ctx.fillStyle = "#f59e0b";
-  roundedRect(ctx, W / 2 + 20, 60, 120, 30, 15);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 14px ${FONT}`;
-  ctx.fillText(`প্রশ্ন #${qNum}`, W / 2 - 80, 81);
-  ctx.fillText(question.examCategoryName.slice(0, 12), W / 2 + 80, 81);
-  ctx.textAlign = "left";
-
-  // Sub category
-  ctx.fillStyle = "#ffffffaa";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(question.subExamCategoryName, W / 2, 115);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#0f172a";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 175;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 38;
-  }
-
-  // Options
-  y += 25;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#dbeafe" : "#ffffff";
-    roundedRect(ctx, 40, y, W - 80, 52, 26);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#2563eb" : "#e2e8f0";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "#0f172a";
-    ctx.font = `20px ${FONT}`;
-    ctx.textAlign = "center";
-    ctx.fillText(`${opt.key}) ${opt.text}${isCorrect ? " ✅" : ""}`, W / 2, y + 34);
-    y += 64;
-  }
-  ctx.textAlign = "left";
-
-  ctx.fillStyle = "#64748b";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("প্রতিদিন ২৪টি প্রশ্ন | farhan-mcq.com", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[18], 18);
 }
 
-// Style 20: Spotlight Center
 async function style20(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#18181b";
-  ctx.fillRect(0, 0, W, H);
-
-  // Spotlight gradient from center
-  const radGrad = ctx.createRadialGradient(W / 2, H / 3, 50, W / 2, H / 3, 400);
-  radGrad.addColorStop(0, "#27272a");
-  radGrad.addColorStop(1, "#18181b");
-  ctx.fillStyle = radGrad;
-  ctx.fillRect(0, 0, W, H);
-
-  // Brand top-left
-  ctx.fillStyle = "#fbbf24";
-  ctx.font = `bold 20px ${FONT}`;
-  ctx.fillText("Farhan MCQ", 30, 40);
-
-  // Question number top-right
-  ctx.fillStyle = "#fbbf24";
-  ctx.font = `bold 24px ${FONT}`;
-  ctx.textAlign = "right";
-  ctx.fillText(`#${qNum}`, W - 30, 40);
-  ctx.textAlign = "left";
-
-  // Category
-  ctx.fillStyle = "#a1a1aa";
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(question.examCategoryName, 30, 75);
-
-  // Question (centered, golden)
-  ctx.fillStyle = "#fef3c7";
-  ctx.font = `bold 28px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 100);
-  let y = 130;
-  for (const line of lines) {
-    ctx.textAlign = "center";
-    ctx.fillText(line, W / 2, y);
-    y += 40;
-  }
-  ctx.textAlign = "left";
-
-  // Options
-  y += 30;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#fbbf2433" : "#27272a";
-    roundedRect(ctx, 50, y, W - 100, 52, 10);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#fbbf24" : "#3f3f46";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = isCorrect ? "#fbbf24" : "#e4e4e7";
-    ctx.font = `20px ${FONT}`;
-    ctx.textAlign = "center";
-    ctx.fillText(`${opt.key}) ${opt.text}`, W / 2, y + 34);
-    y += 64;
-  }
-  ctx.textAlign = "left";
-
-  ctx.fillStyle = "#71717a";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("🌟 farhan-mcq.com | জ্ঞানই শক্তি", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[19], 19);
 }
 
-// Style 21: Retro/Vintage
 async function style21(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#faf5e4";
-  ctx.fillRect(0, 0, W, H);
-
-  // Vintage border
-  ctx.strokeStyle = "#8b5e3c";
-  ctx.lineWidth = 4;
-  roundedRect(ctx, 20, 20, W - 40, H - 40, 4);
-  ctx.stroke();
-  ctx.lineWidth = 1;
-  roundedRect(ctx, 28, 28, W - 56, H - 56, 2);
-  ctx.stroke();
-
-  // Header
-  ctx.fillStyle = "#5c3317";
-  ctx.font = `bold 28px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`— প্রশ্ন ${qNum} —`, W / 2, 70);
-  ctx.font = `20px ${FONT}`;
-  ctx.fillText("Farhan MCQ", W / 2, 100);
-  ctx.font = `16px ${FONT}`;
-  ctx.fillStyle = "#8b5e3c";
-  ctx.fillText(question.examCategoryName, W / 2, 130);
-  ctx.textAlign = "left";
-
-  // Decorative line
-  ctx.strokeStyle = "#8b5e3c";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(80, 145);
-  ctx.lineTo(W - 80, 145);
-  ctx.stroke();
-
-  // Question
-  ctx.fillStyle = "#3d2b1f";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 120);
-  let y = 185;
-  for (const line of lines) {
-    ctx.fillText(line, 50, y);
-    y += 38;
-  }
-
-  // Options
-  y += 25;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#5c3317" : "#6b5843";
-    ctx.font = `${isCorrect ? "bold " : ""}20px ${FONT}`;
-    ctx.fillText(`  ${opt.key}) ${opt.text}${isCorrect ? " ✦" : ""}`, 55, y);
-    y += 48;
-  }
-
-  ctx.fillStyle = "#8b5e3c";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | পরীক্ষা প্রস্তুতির সঙ্গী", W / 2, H - 40);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[20], 20);
 }
 
-// Style 22: Gradient Mesh Modern
 async function style22(ctx, W, H, question, qNum, palette) {
-  // Multi-color gradient
-  const grad = ctx.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0, "#fce4ec");
-  grad.addColorStop(0.33, "#e8eaf6");
-  grad.addColorStop(0.66, "#e0f7fa");
-  grad.addColorStop(1, "#f1f8e9");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
-
-  // Glassmorphism card
-  ctx.fillStyle = "#ffffffbb";
-  roundedRect(ctx, 30, 30, W - 60, H - 60, 20);
-  ctx.fill();
-  ctx.strokeStyle = "#ffffff88";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  // Header
-  ctx.fillStyle = "#1a237e";
-  ctx.font = `bold 30px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText(`প্রশ্ন নং ${qNum}`, W / 2, 80);
-  ctx.font = `bold 20px ${FONT}`;
-  ctx.fillStyle = "#283593";
-  ctx.fillText("Farhan MCQ", W / 2, 115);
-  ctx.font = `16px ${FONT}`;
-  ctx.fillStyle = "#5c6bc0";
-  ctx.fillText(question.examCategoryName, W / 2, 145);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#1a237e";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 120);
-  let y = 190;
-  for (const line of lines) {
-    ctx.fillText(line, 55, y);
-    y += 38;
-  }
-
-  // Options
-  y += 20;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#c5cae9" : "#ffffff88";
-    roundedRect(ctx, 50, y, W - 100, 50, 12);
-    ctx.fill();
-    if (isCorrect) {
-      ctx.strokeStyle = "#3f51b5";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    }
-    ctx.fillStyle = "#1a237e";
-    ctx.font = `20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 70, y + 32);
-    y += 60;
-  }
-
-  ctx.fillStyle = "#5c6bc0";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | সেরা প্রস্তুতি নিন", W / 2, H - 40);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[21], 21);
 }
 
-// Style 23: Branded with Owner (Photo emphasis)
 async function style23(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#f8fafc";
-  ctx.fillRect(0, 0, W, H);
-
-  // Top brand bar
-  ctx.fillStyle = "#1e40af";
-  ctx.fillRect(0, 0, W, 100);
-
-  // Owner photo attempt
-  const ownerImg = await loadOwnerImage(2);
-  if (ownerImg) {
-    drawCircularImage(ctx, ownerImg, 20, 15, 35);
-  }
-
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `bold 24px ${FONT}`;
-  ctx.fillText("Farhan MCQ", ownerImg ? 100 : 30, 45);
-  ctx.font = `16px ${FONT}`;
-  ctx.fillText(`প্রশ্ন #${qNum} | ${question.examCategoryName}`, ownerImg ? 100 : 30, 75);
-
-  // Question
-  ctx.fillStyle = "#1e293b";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 80);
-  let y = 140;
-  for (const line of lines) {
-    ctx.fillText(line, 40, y);
-    y += 38;
-  }
-
-  // Options
-  y += 25;
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (const opt of opts) {
-    const isCorrect = opt.letter === question.correctAnswer;
-    ctx.fillStyle = isCorrect ? "#dbeafe" : "#f1f5f9";
-    roundedRect(ctx, 30, y, W - 60, 52, 10);
-    ctx.fill();
-    ctx.strokeStyle = isCorrect ? "#1e40af" : "#e2e8f0";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "#1e293b";
-    ctx.font = `20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 55, y + 34);
-    if (isCorrect) {
-      ctx.fillStyle = "#1e40af";
-      ctx.font = `bold 16px ${FONT}`;
-      ctx.textAlign = "right";
-      ctx.fillText("✓ সঠিক", W - 50, y + 34);
-      ctx.textAlign = "left";
-    }
-    y += 64;
-  }
-
-  // Footer
-  ctx.fillStyle = "#1e40af";
-  ctx.fillRect(0, H - 40, W, 40);
-  ctx.fillStyle = "#ffffff";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("ফলো করুন — farhan-mcq.com | Facebook | Instagram", W / 2, H - 16);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[22], 22);
 }
 
-// Style 24: Colorful Blocks
 async function style24(ctx, W, H, question, qNum, palette) {
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, W, H);
-
-  // Colorful top blocks
-  const colors = ["#ef4444", "#f59e0b", "#10b981", "#3b82f6", "#8b5cf6"];
-  const blockW = W / colors.length;
-  for (let i = 0; i < colors.length; i++) {
-    ctx.fillStyle = colors[i];
-    ctx.fillRect(i * blockW, 0, blockW, 10);
-  }
-
-  // Owner photo
-  const ownerImg = await loadOwnerImage(3);
-  let headerOffset = 40;
-  if (ownerImg) {
-    drawCircularImage(ctx, ownerImg, W - 90, 25, 30);
-  }
-
-  // Brand
-  ctx.fillStyle = "#111827";
-  ctx.font = `bold 24px ${FONT}`;
-  ctx.fillText("📚 Farhan MCQ", 30, 50);
-
-  // Question number
-  ctx.fillStyle = "#3b82f6";
-  ctx.font = `bold 18px ${FONT}`;
-  ctx.fillText(`প্রশ্ন নং: ${qNum}`, 30, 80);
-
-  // Category
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `16px ${FONT}`;
-  ctx.textAlign = "right";
-  ctx.fillText(question.examCategoryName, W - (ownerImg ? 100 : 30), 80);
-  ctx.textAlign = "left";
-
-  // Question
-  ctx.fillStyle = "#111827";
-  ctx.font = `bold 26px ${FONT}`;
-  const lines = wrapText(ctx, question.questionText, W - 80);
-  let y = 125;
-  for (const line of lines) {
-    ctx.fillText(line, 35, y);
-    y += 38;
-  }
-
-  // Options with colored left border
-  y += 20;
-  const optColors = ["#ef4444", "#3b82f6", "#10b981", "#f59e0b"];
-  const opts = [
-    { key: "ক", text: question.optionA, letter: "A" },
-    { key: "খ", text: question.optionB, letter: "B" },
-    { key: "গ", text: question.optionC, letter: "C" },
-    { key: "ঘ", text: question.optionD, letter: "D" },
-  ];
-  for (let i = 0; i < opts.length; i++) {
-    const opt = opts[i];
-    const isCorrect = opt.letter === question.correctAnswer;
-    // Background
-    ctx.fillStyle = isCorrect ? "#ecfdf5" : "#f9fafb";
-    roundedRect(ctx, 35, y, W - 70, 52, 8);
-    ctx.fill();
-    // Left color bar
-    ctx.fillStyle = optColors[i];
-    ctx.fillRect(35, y + 8, 5, 36);
-    // Text
-    ctx.fillStyle = "#111827";
-    ctx.font = `${isCorrect ? "bold " : ""}20px ${FONT}`;
-    ctx.fillText(`${opt.key}) ${opt.text}`, 55, y + 34);
-    if (isCorrect) {
-      ctx.fillStyle = "#10b981";
-      ctx.font = `bold 16px ${FONT}`;
-      ctx.textAlign = "right";
-      ctx.fillText("✓ সঠিক উত্তর", W - 50, y + 34);
-      ctx.textAlign = "left";
-    }
-    y += 62;
-  }
-
-  // Bottom colorful blocks
-  for (let i = 0; i < colors.length; i++) {
-    ctx.fillStyle = colors[i];
-    ctx.fillRect(i * blockW, H - 10, blockW, 10);
-  }
-
-  ctx.fillStyle = "#6b7280";
-  ctx.font = `14px ${FONT}`;
-  ctx.textAlign = "center";
-  ctx.fillText("farhan-mcq.com | প্রতিদিন ২৪টি নতুন প্রশ্ন!", W / 2, H - 25);
-  ctx.textAlign = "left";
+  await renderStyle(ctx, W, H, question, qNum, palette, STYLE_CONFIGS[23], 23);
 }
 
 // ══════════════════════════════════════════════════════════════════

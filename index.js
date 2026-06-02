@@ -112,7 +112,7 @@ async function generateSlidesAndPost() {
           `(গ) ${firstSlide.question.optionC}`,
           `(ঘ) ${firstSlide.question.optionD}`,
           ``,
-          `✅ সঠিক উত্তর: <b>(${firstSlide.question.correctAnswer === "A" ? "ক" : firstSlide.question.correctAnswer === "B" ? "খ" : firstSlide.question.correctAnswer === "C" ? "গ" : "ঘ"}) ${firstSlide.question["option" + firstSlide.question.correctAnswer]}</b>`,
+          `🔥 <b>সঠিক উত্তর কমেন্ট করুন! আপনি কি পারবেন?</b> 💬`,
           ``,
           `#${firstSlide.question.subExamCategoryName.replace(/\s+/g, "_")} #${firstSlide.question.examCategoryName.replace(/\s+/g, "_")}`,
           `🌐 farhan-mcq.com`,
