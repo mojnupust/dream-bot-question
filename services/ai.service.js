@@ -201,7 +201,7 @@ function buildFallbackQuestionCaption(question) {
     ``,
     `${subTag} ${examTag} #MCQ #FarhanMCQ #BCS_প্রস্তুতি`,
     ``,
-    `farhan-mcq.com`,
+    ``,
   ].join("\n");
 }
 

@@ -44,7 +44,7 @@ function buildCaption(question) {
     `সঠিক উত্তর: <b>(${correctLetter}) ${esc(correctText)}</b>`,
     ``,
     `প্র্যাকটিস করতে থাকো!`,
-    `farhan-mcq.com`,
+    ``,
   ].join("\n");
 }
 

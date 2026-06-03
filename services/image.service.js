@@ -331,7 +331,7 @@ async function generateQuestionCard(question, options = {}) {
   ctx.fillStyle = TEXT_MUTED;
   ctx.textBaseline = "top";
   ctx.fillStyle = BRAND_COLOR;
-  ctx.fillText("🌐 farhan-mcq.com", PADDING, curY);
+  ctx.fillText("🌐 ", PADDING, curY);
   ctx.textAlign = "right";
   ctx.fillText("🔔 প্রতি ২ ঘণ্টায় নতুন প্রশ্ন!", WIDTH - PADDING, curY);
   ctx.textAlign = "left";

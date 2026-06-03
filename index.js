@@ -47,6 +47,7 @@ const SERVER_URL =
 // TEST_MODE=true → run every 5 minutes; production → every hour
 const TEST_MODE = process.env.TEST_MODE === "true";
 const CRON_SCHEDULE = TEST_MODE ? "*/5 * * * *" : "0 * * * *";
+const KEEPALIVE_SCHEDULE = "*/10 * * * *";
 
 console.log(
   `🤖 Bot starting in ${TEST_MODE ? "TEST (5 min)" : "PRODUCTION (1 hr)"} mode`,
@@ -83,9 +84,8 @@ async function generateSlidesAndPost() {
 
   try {
     // Generate 24 slides with different styles, saved permanently
-    const { slides, startNum, endNum } = await generate24Slides(
-      fetchRandomQuestion,
-    );
+    const { slides, startNum, endNum } =
+      await generate24Slides(fetchRandomQuestion);
 
     if (slides.length === 0) {
       console.error("❌ No slides generated! Check API connection.");
@@ -116,7 +116,7 @@ async function generateSlidesAndPost() {
           `🔥 <b>সঠিক উত্তর কমেন্ট করুন! আপনি কি পারবেন?</b> 💬`,
           ``,
           `#${firstSlide.question.subExamCategoryName.replace(/\s+/g, "_")} #${firstSlide.question.examCategoryName.replace(/\s+/g, "_")}`,
-          `🌐 farhan-mcq.com`,
+          `🌐 `,
         ].join("\n");
 
         const photoStream = fs.createReadStream(firstSlide.path);
@@ -137,15 +137,17 @@ async function generateSlidesAndPost() {
     console.log(`   • Slides saved to: ${IMAGES_DIR}`);
     console.log(`   • Solutions saved to: ${SOLUTIONS_DIR}`);
     console.log(`   • First slide sent to Telegram`);
-    console.log(`   • Upload remaining 23 slides to Facebook/Instagram manually`);
+    console.log(
+      `   • Upload remaining 23 slides to Facebook/Instagram manually`,
+    );
     console.log("\n═══════════════════════════════════════════════════════\n");
   } catch (err) {
     console.error(`❌ Slide generation failed: ${err.message}`);
   }
 }
 
-// ── Run all tasks and exit ─────────────────────────────────────
-async function runAllPostTypesAndExit() {
+// ── Run startup tasks without stopping the server ──────────────
+async function runAllStartupTasks() {
   console.log("\n🚀 Starting execution...\n");
 
   try {
@@ -182,11 +184,9 @@ async function runAllPostTypesAndExit() {
     }
 
     console.log("✨ All tasks completed successfully!");
-    console.log("👋 Exiting server...\n");
-    process.exit(0);
+    console.log("✅ Server remains available on the configured port.\n");
   } catch (err) {
     console.error(`❌ Fatal error: ${err.message}`);
-    process.exit(1);
   }
 }
 
@@ -216,7 +216,24 @@ async function runAllPostTypesAndExit() {
 // ── Server ────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 
-// Init Facebook token, then run all tasks and exit
-initFBToken().then(() => {
-  runAllPostTypesAndExit();
+async function initializeAndRunTasks() {
+  try {
+    await initFBToken();
+    await runAllStartupTasks();
+  } catch (err) {
+    console.error(`❌ Startup task failed: ${err.message}`);
+  }
+}
+
+cron.schedule(KEEPALIVE_SCHEDULE, () => {
+  console.log("💓 Keepalive heartbeat");
+});
+
+const server = app.listen(PORT, () => {
+  console.log(`🌐 Server listening on port ${PORT}`);
+  initializeAndRunTasks();
+});
+
+server.on("error", (err) => {
+  console.error(`❌ Server error: ${err.message}`);
 });

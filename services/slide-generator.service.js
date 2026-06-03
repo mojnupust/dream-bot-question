@@ -21,8 +21,7 @@ if (fs.existsSync(boldFont))
 if (fs.existsSync(emojiFont))
   GlobalFonts.registerFromPath(emojiFont, "NotoColorEmoji");
 
-const FONT =
-  '"NotoSansBengali", "NotoSans", "NotoColorEmoji", sans-serif';
+const FONT = '"NotoSansBengali", "NotoSans", "NotoColorEmoji", sans-serif';
 
 const IMAGES_DIR = path.join(__dirname, "..", "images");
 const SOLUTIONS_DIR = path.join(__dirname, "..", "solutions");
@@ -31,14 +30,19 @@ const COUNTER_PATH = path.join(__dirname, "..", "counter.json");
 
 // ── Ensure directories exist ────────────────────────────────────
 if (!fs.existsSync(IMAGES_DIR)) fs.mkdirSync(IMAGES_DIR, { recursive: true });
-if (!fs.existsSync(SOLUTIONS_DIR)) fs.mkdirSync(SOLUTIONS_DIR, { recursive: true });
+if (!fs.existsSync(SOLUTIONS_DIR))
+  fs.mkdirSync(SOLUTIONS_DIR, { recursive: true });
 
 // ── Counter management ──────────────────────────────────────────
 function readCounter() {
   try {
     return JSON.parse(fs.readFileSync(COUNTER_PATH, "utf-8"));
   } catch {
-    return { lastQuestionNumber: 0, totalSlidesGenerated: 0, lastRunDate: null };
+    return {
+      lastQuestionNumber: 0,
+      totalSlidesGenerated: 0,
+      lastRunDate: null,
+    };
   }
 }
 
@@ -108,30 +112,174 @@ function drawCircularImage(ctx, img, x, y, radius) {
 
 // ── Color palettes for variety ──────────────────────────────────
 const PALETTES = [
-  { bg: "#1a1a2e", accent: "#ff6b6b", text: "#ffffff", secondary: "#16213e", border: "#60a5fa" },
-  { bg: "#0f172a", accent: "#22d3ee", text: "#f8fafc", secondary: "#1e293b", border: "#38bdf8" },
-  { bg: "#18181b", accent: "#f97316", text: "#fafafa", secondary: "#27272a", border: "#fb7185" },
-  { bg: "#ffffff", accent: "#4f46e5", text: "#0f172a", secondary: "#eef2ff", border: "#312e81" },
-  { bg: "#fef3c7", accent: "#d97706", text: "#1c1917", secondary: "#fffbeb", border: "#92400e" },
-  { bg: "#ecfdf5", accent: "#059669", text: "#064e3b", secondary: "#d1fae5", border: "#047857" },
-  { bg: "#eff6ff", accent: "#2563eb", text: "#0f172a", secondary: "#dbeafe", border: "#1d4ed8" },
-  { bg: "#fdf2f8", accent: "#db2777", text: "#831843", secondary: "#fce7f3", border: "#be185d" },
-  { bg: "#f5f3ff", accent: "#7c3aed", text: "#2e1065", secondary: "#ede9fe", border: "#6d28d9" },
-  { bg: "#fff7ed", accent: "#ea580c", text: "#431407", secondary: "#ffedd5", border: "#c2410c" },
-  { bg: "#0b1120", accent: "#a855f7", text: "#f8fafc", secondary: "#1f2937", border: "#c084fc" },
-  { bg: "#111827", accent: "#f59e0b", text: "#f9fafb", secondary: "#1f2937", border: "#fbbf24" },
-  { bg: "#fafaf9", accent: "#dc2626", text: "#1c1917", secondary: "#e7e5e4", border: "#b91c1c" },
-  { bg: "#f8fafc", accent: "#0ea5e9", text: "#0f172a", secondary: "#e2e8f0", border: "#0284c7" },
-  { bg: "#fffbeb", accent: "#b45309", text: "#451a03", secondary: "#fde68a", border: "#92400e" },
-  { bg: "#f0fdf4", accent: "#16a34a", text: "#14532d", secondary: "#bbf7d0", border: "#15803d" },
-  { bg: "#fef2f2", accent: "#ef4444", text: "#7f1d1d", secondary: "#fecaca", border: "#dc2626" },
-  { bg: "#eef2ff", accent: "#4f46e5", text: "#312e81", secondary: "#c7d2fe", border: "#4338ca" },
-  { bg: "#fdf4ff", accent: "#a855f7", text: "#581c87", secondary: "#f5d0fe", border: "#9333ea" },
-  { bg: "#f0f9ff", accent: "#0284c7", text: "#0c4a6e", secondary: "#bae6fd", border: "#0369a1" },
-  { bg: "#ecfeff", accent: "#0891b2", text: "#164e63", secondary: "#a5f3fc", border: "#0e7490" },
-  { bg: "#f7fee7", accent: "#65a30d", text: "#365314", secondary: "#d9f99d", border: "#4d7c0f" },
-  { bg: "#fff1f2", accent: "#f43f5e", text: "#4c0519", secondary: "#ffe4e6", border: "#e11d48" },
-  { bg: "#f8f8ff", accent: "#6366f1", text: "#1e1b4b", secondary: "#e0e7ff", border: "#4f46e5" },
+  {
+    bg: "#1a1a2e",
+    accent: "#ff6b6b",
+    text: "#ffffff",
+    secondary: "#16213e",
+    border: "#60a5fa",
+  },
+  {
+    bg: "#0f172a",
+    accent: "#22d3ee",
+    text: "#f8fafc",
+    secondary: "#1e293b",
+    border: "#38bdf8",
+  },
+  {
+    bg: "#18181b",
+    accent: "#f97316",
+    text: "#fafafa",
+    secondary: "#27272a",
+    border: "#fb7185",
+  },
+  {
+    bg: "#ffffff",
+    accent: "#4f46e5",
+    text: "#0f172a",
+    secondary: "#eef2ff",
+    border: "#312e81",
+  },
+  {
+    bg: "#fef3c7",
+    accent: "#d97706",
+    text: "#1c1917",
+    secondary: "#fffbeb",
+    border: "#92400e",
+  },
+  {
+    bg: "#ecfdf5",
+    accent: "#059669",
+    text: "#064e3b",
+    secondary: "#d1fae5",
+    border: "#047857",
+  },
+  {
+    bg: "#eff6ff",
+    accent: "#2563eb",
+    text: "#0f172a",
+    secondary: "#dbeafe",
+    border: "#1d4ed8",
+  },
+  {
+    bg: "#fdf2f8",
+    accent: "#db2777",
+    text: "#831843",
+    secondary: "#fce7f3",
+    border: "#be185d",
+  },
+  {
+    bg: "#f5f3ff",
+    accent: "#7c3aed",
+    text: "#2e1065",
+    secondary: "#ede9fe",
+    border: "#6d28d9",
+  },
+  {
+    bg: "#fff7ed",
+    accent: "#ea580c",
+    text: "#431407",
+    secondary: "#ffedd5",
+    border: "#c2410c",
+  },
+  {
+    bg: "#0b1120",
+    accent: "#a855f7",
+    text: "#f8fafc",
+    secondary: "#1f2937",
+    border: "#c084fc",
+  },
+  {
+    bg: "#111827",
+    accent: "#f59e0b",
+    text: "#f9fafb",
+    secondary: "#1f2937",
+    border: "#fbbf24",
+  },
+  {
+    bg: "#fafaf9",
+    accent: "#dc2626",
+    text: "#1c1917",
+    secondary: "#e7e5e4",
+    border: "#b91c1c",
+  },
+  {
+    bg: "#f8fafc",
+    accent: "#0ea5e9",
+    text: "#0f172a",
+    secondary: "#e2e8f0",
+    border: "#0284c7",
+  },
+  {
+    bg: "#fffbeb",
+    accent: "#b45309",
+    text: "#451a03",
+    secondary: "#fde68a",
+    border: "#92400e",
+  },
+  {
+    bg: "#f0fdf4",
+    accent: "#16a34a",
+    text: "#14532d",
+    secondary: "#bbf7d0",
+    border: "#15803d",
+  },
+  {
+    bg: "#fef2f2",
+    accent: "#ef4444",
+    text: "#7f1d1d",
+    secondary: "#fecaca",
+    border: "#dc2626",
+  },
+  {
+    bg: "#eef2ff",
+    accent: "#4f46e5",
+    text: "#312e81",
+    secondary: "#c7d2fe",
+    border: "#4338ca",
+  },
+  {
+    bg: "#fdf4ff",
+    accent: "#a855f7",
+    text: "#581c87",
+    secondary: "#f5d0fe",
+    border: "#9333ea",
+  },
+  {
+    bg: "#f0f9ff",
+    accent: "#0284c7",
+    text: "#0c4a6e",
+    secondary: "#bae6fd",
+    border: "#0369a1",
+  },
+  {
+    bg: "#ecfeff",
+    accent: "#0891b2",
+    text: "#164e63",
+    secondary: "#a5f3fc",
+    border: "#0e7490",
+  },
+  {
+    bg: "#f7fee7",
+    accent: "#65a30d",
+    text: "#365314",
+    secondary: "#d9f99d",
+    border: "#4d7c0f",
+  },
+  {
+    bg: "#fff1f2",
+    accent: "#f43f5e",
+    text: "#4c0519",
+    secondary: "#ffe4e6",
+    border: "#e11d48",
+  },
+  {
+    bg: "#f8f8ff",
+    accent: "#6366f1",
+    text: "#1e1b4b",
+    secondary: "#e0e7ff",
+    border: "#4f46e5",
+  },
 ];
 
 const CTA_TEXTS = [
@@ -144,37 +292,247 @@ const CTA_TEXTS = [
 ];
 
 const STYLE_CONFIGS = [
-  { bgVariant: "classic-bar", headerVariant: "split", questionVariant: "card", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left" },
-  { bgVariant: "gradient-top", headerVariant: "center", questionVariant: "soft", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center" },
-  { bgVariant: "neon-grid", headerVariant: "badge", questionVariant: "glass", optionVariant: "glass", columns: 1, ctaVariant: "electric", footerAlign: "left" },
-  { bgVariant: "light-orbs", headerVariant: "right", questionVariant: "frame", optionVariant: "pill", columns: 2, ctaVariant: "glow", footerAlign: "right", ownerImage: 1, ownerPosition: "left" },
-  { bgVariant: "sunset-band", headerVariant: "banner", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "burst", footerAlign: "left" },
-  { bgVariant: "mint-glow", headerVariant: "split", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "banner", footerAlign: "center" },
-  { bgVariant: "blueprint", headerVariant: "center", questionVariant: "glass", optionVariant: "outline", columns: 1, ctaVariant: "electric", footerAlign: "left" },
-  { bgVariant: "pink-ray", headerVariant: "badge", questionVariant: "frame", optionVariant: "pill", columns: 2, ctaVariant: "glow", footerAlign: "right" },
-  { bgVariant: "violet-wave", headerVariant: "split", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left", ownerImage: 2, ownerPosition: "right" },
-  { bgVariant: "orange-paper", headerVariant: "right", questionVariant: "card", optionVariant: "outline", columns: 2, ctaVariant: "burst", footerAlign: "center" },
-  { bgVariant: "cyber-dark", headerVariant: "banner", questionVariant: "glass", optionVariant: "glass", columns: 1, ctaVariant: "electric", footerAlign: "left" },
-  { bgVariant: "gold-dark", headerVariant: "center", questionVariant: "frame", optionVariant: "solid", columns: 2, ctaVariant: "banner", footerAlign: "center" },
-  { bgVariant: "newsprint", headerVariant: "split", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "glow", footerAlign: "left" },
-  { bgVariant: "sky-rings", headerVariant: "badge", questionVariant: "card", optionVariant: "outline", columns: 2, ctaVariant: "burst", footerAlign: "right" },
-  { bgVariant: "amber-shine", headerVariant: "right", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "banner", footerAlign: "left", ownerImage: 3, ownerPosition: "left" },
-  { bgVariant: "green-spotlight", headerVariant: "center", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "glow", footerAlign: "center" },
-  { bgVariant: "red-pop", headerVariant: "split", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "burst", footerAlign: "left" },
-  { bgVariant: "indigo-orbit", headerVariant: "banner", questionVariant: "glass", optionVariant: "outline", columns: 2, ctaVariant: "electric", footerAlign: "right" },
-  { bgVariant: "purple-confetti", headerVariant: "badge", questionVariant: "card", optionVariant: "solid", columns: 1, ctaVariant: "glow", footerAlign: "left" },
-  { bgVariant: "ocean-grid", headerVariant: "split", questionVariant: "soft", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center", ownerImage: 1, ownerPosition: "center" },
-  { bgVariant: "cyan-burst", headerVariant: "center", questionVariant: "frame", optionVariant: "pill", columns: 1, ctaVariant: "glow", footerAlign: "left" },
-  { bgVariant: "lime-lines", headerVariant: "right", questionVariant: "card", optionVariant: "glass", columns: 2, ctaVariant: "electric", footerAlign: "right", ownerImage: 2, ownerPosition: "left" },
-  { bgVariant: "rose-glow", headerVariant: "split", questionVariant: "soft", optionVariant: "solid", columns: 1, ctaVariant: "burst", footerAlign: "left", ownerImage: 3, ownerPosition: "right" },
-  { bgVariant: "royal-finish", headerVariant: "banner", questionVariant: "glass", optionVariant: "outline", columns: 2, ctaVariant: "banner", footerAlign: "center", ownerImage: 1, ownerPosition: "center" },
+  {
+    bgVariant: "classic-bar",
+    headerVariant: "split",
+    questionVariant: "card",
+    optionVariant: "solid",
+    columns: 1,
+    ctaVariant: "glow",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "gradient-top",
+    headerVariant: "center",
+    questionVariant: "soft",
+    optionVariant: "outline",
+    columns: 2,
+    ctaVariant: "banner",
+    footerAlign: "center",
+  },
+  {
+    bgVariant: "neon-grid",
+    headerVariant: "badge",
+    questionVariant: "glass",
+    optionVariant: "glass",
+    columns: 1,
+    ctaVariant: "electric",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "light-orbs",
+    headerVariant: "right",
+    questionVariant: "frame",
+    optionVariant: "pill",
+    columns: 2,
+    ctaVariant: "glow",
+    footerAlign: "right",
+    ownerImage: 1,
+    ownerPosition: "left",
+  },
+  {
+    bgVariant: "sunset-band",
+    headerVariant: "banner",
+    questionVariant: "soft",
+    optionVariant: "solid",
+    columns: 1,
+    ctaVariant: "burst",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "mint-glow",
+    headerVariant: "split",
+    questionVariant: "card",
+    optionVariant: "glass",
+    columns: 2,
+    ctaVariant: "banner",
+    footerAlign: "center",
+  },
+  {
+    bgVariant: "blueprint",
+    headerVariant: "center",
+    questionVariant: "glass",
+    optionVariant: "outline",
+    columns: 1,
+    ctaVariant: "electric",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "pink-ray",
+    headerVariant: "badge",
+    questionVariant: "frame",
+    optionVariant: "pill",
+    columns: 2,
+    ctaVariant: "glow",
+    footerAlign: "right",
+  },
+  {
+    bgVariant: "violet-wave",
+    headerVariant: "split",
+    questionVariant: "soft",
+    optionVariant: "solid",
+    columns: 1,
+    ctaVariant: "glow",
+    footerAlign: "left",
+    ownerImage: 2,
+    ownerPosition: "right",
+  },
+  {
+    bgVariant: "orange-paper",
+    headerVariant: "right",
+    questionVariant: "card",
+    optionVariant: "outline",
+    columns: 2,
+    ctaVariant: "burst",
+    footerAlign: "center",
+  },
+  {
+    bgVariant: "cyber-dark",
+    headerVariant: "banner",
+    questionVariant: "glass",
+    optionVariant: "glass",
+    columns: 1,
+    ctaVariant: "electric",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "gold-dark",
+    headerVariant: "center",
+    questionVariant: "frame",
+    optionVariant: "solid",
+    columns: 2,
+    ctaVariant: "banner",
+    footerAlign: "center",
+  },
+  {
+    bgVariant: "newsprint",
+    headerVariant: "split",
+    questionVariant: "frame",
+    optionVariant: "pill",
+    columns: 1,
+    ctaVariant: "glow",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "sky-rings",
+    headerVariant: "badge",
+    questionVariant: "card",
+    optionVariant: "outline",
+    columns: 2,
+    ctaVariant: "burst",
+    footerAlign: "right",
+  },
+  {
+    bgVariant: "amber-shine",
+    headerVariant: "right",
+    questionVariant: "soft",
+    optionVariant: "solid",
+    columns: 1,
+    ctaVariant: "banner",
+    footerAlign: "left",
+    ownerImage: 3,
+    ownerPosition: "left",
+  },
+  {
+    bgVariant: "green-spotlight",
+    headerVariant: "center",
+    questionVariant: "card",
+    optionVariant: "glass",
+    columns: 2,
+    ctaVariant: "glow",
+    footerAlign: "center",
+  },
+  {
+    bgVariant: "red-pop",
+    headerVariant: "split",
+    questionVariant: "frame",
+    optionVariant: "pill",
+    columns: 1,
+    ctaVariant: "burst",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "indigo-orbit",
+    headerVariant: "banner",
+    questionVariant: "glass",
+    optionVariant: "outline",
+    columns: 2,
+    ctaVariant: "electric",
+    footerAlign: "right",
+  },
+  {
+    bgVariant: "purple-confetti",
+    headerVariant: "badge",
+    questionVariant: "card",
+    optionVariant: "solid",
+    columns: 1,
+    ctaVariant: "glow",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "ocean-grid",
+    headerVariant: "split",
+    questionVariant: "soft",
+    optionVariant: "outline",
+    columns: 2,
+    ctaVariant: "banner",
+    footerAlign: "center",
+    ownerImage: 1,
+    ownerPosition: "center",
+  },
+  {
+    bgVariant: "cyan-burst",
+    headerVariant: "center",
+    questionVariant: "frame",
+    optionVariant: "pill",
+    columns: 1,
+    ctaVariant: "glow",
+    footerAlign: "left",
+  },
+  {
+    bgVariant: "lime-lines",
+    headerVariant: "right",
+    questionVariant: "card",
+    optionVariant: "glass",
+    columns: 2,
+    ctaVariant: "electric",
+    footerAlign: "right",
+    ownerImage: 2,
+    ownerPosition: "left",
+  },
+  {
+    bgVariant: "rose-glow",
+    headerVariant: "split",
+    questionVariant: "soft",
+    optionVariant: "solid",
+    columns: 1,
+    ctaVariant: "burst",
+    footerAlign: "left",
+    ownerImage: 3,
+    ownerPosition: "right",
+  },
+  {
+    bgVariant: "royal-finish",
+    headerVariant: "banner",
+    questionVariant: "glass",
+    optionVariant: "outline",
+    columns: 2,
+    ctaVariant: "banner",
+    footerAlign: "center",
+    ownerImage: 1,
+    ownerPosition: "center",
+  },
 ];
 
 function hexToRgb(hex) {
   const normalized = hex.replace("#", "");
-  const full = normalized.length === 3
-    ? normalized.split("").map((c) => c + c).join("")
-    : normalized;
+  const full =
+    normalized.length === 3
+      ? normalized
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : normalized;
   const int = parseInt(full, 16);
   return {
     r: (int >> 16) & 255,
@@ -225,7 +583,14 @@ function getCtaText(qNum, styleSeed = 0) {
   return CTA_TEXTS[(qNum + styleSeed - 1) % CTA_TEXTS.length];
 }
 
-function fitWrappedText(ctx, text, maxWidth, fontSizes, maxLines, weight = "bold") {
+function fitWrappedText(
+  ctx,
+  text,
+  maxWidth,
+  fontSizes,
+  maxLines,
+  weight = "bold",
+) {
   for (const size of fontSizes) {
     ctx.font = `${weight} ${size}px ${FONT}`;
     const lines = wrapText(ctx, text, maxWidth);
@@ -320,8 +685,10 @@ function drawBackground(ctx, W, H, palette, variant) {
       overlay.addColorStop(1, rgba(palette.bg, 0));
       ctx.fillStyle = overlay;
       ctx.fillRect(0, 0, W, H);
-      for (let x = 0; x <= W; x += 60) drawLine(ctx, x, 0, x, H, rgba(palette.text, 0.08), 1);
-      for (let y = 0; y <= H; y += 60) drawLine(ctx, 0, y, W, y, rgba(palette.text, 0.08), 1);
+      for (let x = 0; x <= W; x += 60)
+        drawLine(ctx, x, 0, x, H, rgba(palette.text, 0.08), 1);
+      for (let y = 0; y <= H; y += 60)
+        drawLine(ctx, 0, y, W, y, rgba(palette.text, 0.08), 1);
       break;
     }
     case "light-orbs":
@@ -389,13 +756,29 @@ function drawBackground(ctx, W, H, palette, variant) {
       ctx.fillRect(0, 0, W, H);
       drawGlowRect(ctx, 70, 90, W - 140, H - 240, 42, palette.accent, 0.12, 60);
       for (let i = 0; i < 7; i++) {
-        drawLine(ctx, -40, 130 + i * 140, W + 40, 70 + i * 140, rgba(palette.border, 0.08), 8);
+        drawLine(
+          ctx,
+          -40,
+          130 + i * 140,
+          W + 40,
+          70 + i * 140,
+          rgba(palette.border, 0.08),
+          8,
+        );
       }
       break;
     }
     case "red-pop": {
       for (let i = 0; i < 7; i++) {
-        drawLine(ctx, -40, 130 + i * 140, W + 40, 70 + i * 140, rgba(palette.border, 0.08), 8);
+        drawLine(
+          ctx,
+          -40,
+          130 + i * 140,
+          W + 40,
+          70 + i * 140,
+          rgba(palette.border, 0.08),
+          8,
+        );
       }
       drawCircle(ctx, W - 140, 120, 170, rgba(palette.accent, 0.15));
       drawCircle(ctx, 150, H - 180, 190, rgba(palette.border, 0.12));
@@ -403,15 +786,31 @@ function drawBackground(ctx, W, H, palette, variant) {
     }
     case "purple-confetti": {
       for (let i = 0; i < 24; i++) {
-        const x = 40 + (i * 43) % W;
+        const x = 40 + ((i * 43) % W);
         const y = 80 + ((i * 97) % 900);
-        fillRoundRect(ctx, x, y, 20, 8, 4, i % 2 === 0 ? rgba(palette.accent, 0.35) : rgba(palette.border, 0.35));
+        fillRoundRect(
+          ctx,
+          x,
+          y,
+          20,
+          8,
+          4,
+          i % 2 === 0 ? rgba(palette.accent, 0.35) : rgba(palette.border, 0.35),
+        );
       }
       break;
     }
     case "lime-lines": {
       for (let i = 0; i < 10; i++) {
-        drawLine(ctx, 60 + i * 100, 0, 0 + i * 100, H, rgba(palette.accent, 0.08), 6);
+        drawLine(
+          ctx,
+          60 + i * 100,
+          0,
+          0 + i * 100,
+          H,
+          rgba(palette.accent, 0.08),
+          6,
+        );
       }
       break;
     }
@@ -423,7 +822,15 @@ function drawBackground(ctx, W, H, palette, variant) {
       ctx.fillRect(0, 0, W, 200);
       drawGlowRect(ctx, 70, 90, W - 140, H - 240, 42, palette.accent, 0.12, 60);
       for (let i = 0; i < 7; i++) {
-        drawLine(ctx, -40, 130 + i * 140, W + 40, 70 + i * 140, rgba(palette.border, 0.08), 8);
+        drawLine(
+          ctx,
+          -40,
+          130 + i * 140,
+          W + 40,
+          70 + i * 140,
+          rgba(palette.border, 0.08),
+          8,
+        );
       }
       break;
     }
@@ -438,7 +845,17 @@ function drawHeader(ctx, W, question, qNum, palette, config) {
   const headerY = config.headerVariant === "banner" ? 34 : 42;
 
   if (config.headerVariant === "banner") {
-    fillRoundRect(ctx, 40, 30, W - 80, 92, 28, palette.accent, rgba(palette.text, 0.18), 1.5);
+    fillRoundRect(
+      ctx,
+      40,
+      30,
+      W - 80,
+      92,
+      28,
+      palette.accent,
+      rgba(palette.text, 0.18),
+      1.5,
+    );
     ctx.fillStyle = badgeTextColor;
     ctx.font = `bold 24px ${FONT}`;
     ctx.fillText(`প্রশ্ন #${qNum}`, 76, 88);
@@ -517,37 +934,65 @@ function drawHeader(ctx, W, question, qNum, palette, config) {
   return 160;
 }
 
-function drawOwnerPhoto(ctx, W, palette, position, ownerImg) {
-  if (!ownerImg) return 0;
+function drawOwnerPhoto(ctx, W, palette, position, ownerImg, startY = 24) {
+  if (!ownerImg) return startY;
 
   const imgSize = 70; // diameter
   const imgRadius = imgSize / 2;
   const padding = 8;
   const containerSize = imgSize + padding * 2;
   const containerRadius = containerSize / 2;
+  const cy = startY;
 
   if (position === "left") {
     const cx = 30;
-    const cy = 24;
-    fillRoundRect(ctx, cx, cy, containerSize, containerSize, containerRadius, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+    fillRoundRect(
+      ctx,
+      cx,
+      cy,
+      containerSize,
+      containerSize,
+      containerRadius,
+      rgba(palette.bg, 0.82),
+      rgba(palette.accent, 0.35),
+      2,
+    );
     drawCircularImage(ctx, ownerImg, cx + padding, cy + padding, imgRadius);
-    return 0;
+    return cy + containerSize;
   }
 
   if (position === "right") {
     const cx = W - 30 - containerSize;
-    const cy = 24;
-    fillRoundRect(ctx, cx, cy, containerSize, containerSize, containerRadius, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+    fillRoundRect(
+      ctx,
+      cx,
+      cy,
+      containerSize,
+      containerSize,
+      containerRadius,
+      rgba(palette.bg, 0.82),
+      rgba(palette.accent, 0.35),
+      2,
+    );
     drawCircularImage(ctx, ownerImg, cx + padding, cy + padding, imgRadius);
-    return 0;
+    return cy + containerSize;
   }
 
-  // center position - shifts content down
+  // center position - keeps the portrait above the question block
   const cx = W / 2 - containerRadius;
-  const cy = 16;
-  fillRoundRect(ctx, cx, cy, containerSize, containerSize, containerRadius, rgba(palette.bg, 0.82), rgba(palette.accent, 0.35), 2);
+  fillRoundRect(
+    ctx,
+    cx,
+    cy,
+    containerSize,
+    containerSize,
+    containerRadius,
+    rgba(palette.bg, 0.82),
+    rgba(palette.accent, 0.35),
+    2,
+  );
   drawCircularImage(ctx, ownerImg, cx + padding, cy + padding, imgRadius);
-  return containerSize + 8;
+  return cy + containerSize;
 }
 
 function drawQuestionBlock(ctx, W, question, palette, config, startY) {
@@ -556,21 +1001,84 @@ function drawQuestionBlock(ctx, W, question, palette, config, startY) {
   const innerW = boxW - 80;
   const questionText = safeText(question.questionText, "প্রশ্ন লোড করা যায়নি");
   const maxLines = config.columns === 2 ? 4 : 5;
-  const fitted = fitWrappedText(ctx, questionText, innerW, [44, 40, 36, 34, 32, 30], maxLines, "bold");
+  const fitted = fitWrappedText(
+    ctx,
+    questionText,
+    innerW,
+    [44, 40, 36, 34, 32, 30],
+    maxLines,
+    "bold",
+  );
   const lineHeight = fitted.size + 14;
   const boxH = 90 + fitted.lines.length * lineHeight;
 
   if (config.questionVariant === "glass") {
-    fillRoundRect(ctx, boxX, startY, boxW, boxH, 30, rgba(palette.secondary, 0.76), rgba(palette.border, 0.36), 2);
+    fillRoundRect(
+      ctx,
+      boxX,
+      startY,
+      boxW,
+      boxH,
+      30,
+      rgba(palette.secondary, 0.76),
+      rgba(palette.border, 0.36),
+      2,
+    );
     drawGlowRect(ctx, boxX, startY, boxW, boxH, 30, palette.accent, 0.14, 34);
   } else if (config.questionVariant === "frame") {
-    fillRoundRect(ctx, boxX, startY, boxW, boxH, 30, rgba(palette.secondary, 0.94), palette.accent, 3);
-    fillRoundRect(ctx, boxX + 16, startY + 16, boxW - 32, boxH - 32, 22, rgba(palette.bg, 0.42));
+    fillRoundRect(
+      ctx,
+      boxX,
+      startY,
+      boxW,
+      boxH,
+      30,
+      rgba(palette.secondary, 0.94),
+      palette.accent,
+      3,
+    );
+    fillRoundRect(
+      ctx,
+      boxX + 16,
+      startY + 16,
+      boxW - 32,
+      boxH - 32,
+      22,
+      rgba(palette.bg, 0.42),
+    );
   } else if (config.questionVariant === "soft") {
-    fillRoundRect(ctx, boxX, startY, boxW, boxH, 30, rgba(palette.secondary, 0.92), rgba(palette.text, 0.08), 1.5);
-    fillRoundRect(ctx, boxX + 20, startY + 20, 10, boxH - 40, 5, palette.accent);
+    fillRoundRect(
+      ctx,
+      boxX,
+      startY,
+      boxW,
+      boxH,
+      30,
+      rgba(palette.secondary, 0.92),
+      rgba(palette.text, 0.08),
+      1.5,
+    );
+    fillRoundRect(
+      ctx,
+      boxX + 20,
+      startY + 20,
+      10,
+      boxH - 40,
+      5,
+      palette.accent,
+    );
   } else {
-    fillRoundRect(ctx, boxX, startY, boxW, boxH, 30, rgba(palette.secondary, 0.96), rgba(palette.border, 0.26), 2);
+    fillRoundRect(
+      ctx,
+      boxX,
+      startY,
+      boxW,
+      boxH,
+      30,
+      rgba(palette.secondary, 0.96),
+      rgba(palette.border, 0.26),
+      2,
+    );
     fillRoundRect(ctx, boxX, startY, boxW, 12, 6, palette.accent);
   }
 
@@ -620,11 +1128,30 @@ function getOptionStyle(palette, variant) {
 
 function drawOptionCard(ctx, opt, x, y, w, h, palette, config) {
   const style = getOptionStyle(palette, config.optionVariant);
-  if (config.optionVariant === "glass") drawGlowRect(ctx, x, y, w, h, 24, palette.accent, 0.14, 24);
-  fillRoundRect(ctx, x, y, w, h, 24, style.fill, style.stroke, config.optionVariant === "outline" ? 3 : 2);
+  if (config.optionVariant === "glass")
+    drawGlowRect(ctx, x, y, w, h, 24, palette.accent, 0.14, 24);
+  fillRoundRect(
+    ctx,
+    x,
+    y,
+    w,
+    h,
+    24,
+    style.fill,
+    style.stroke,
+    config.optionVariant === "outline" ? 3 : 2,
+  );
 
   const badgeSize = config.columns === 2 ? 44 : 48;
-  fillRoundRect(ctx, x + 18, y + 18, badgeSize, badgeSize, 18, style.letterFill);
+  fillRoundRect(
+    ctx,
+    x + 18,
+    y + 18,
+    badgeSize,
+    badgeSize,
+    18,
+    style.letterFill,
+  );
   ctx.fillStyle = style.letterText;
   ctx.font = `bold ${config.columns === 2 ? 22 : 24}px ${FONT}`;
   ctx.textAlign = "center";
@@ -634,7 +1161,14 @@ function drawOptionCard(ctx, opt, x, y, w, h, palette, config) {
   const innerX = x + 18 + badgeSize + 18;
   const innerW = w - (innerX - x) - 20;
   const sizeSet = config.columns === 2 ? [22, 20, 18] : [24, 22, 20, 18];
-  const fitted = fitWrappedText(ctx, opt.text, innerW, sizeSet, config.columns === 2 ? 3 : 2, "bold");
+  const fitted = fitWrappedText(
+    ctx,
+    opt.text,
+    innerW,
+    sizeSet,
+    config.columns === 2 ? 3 : 2,
+    "bold",
+  );
   const lineHeight = fitted.size + 10;
   const blockHeight = fitted.lines.length * lineHeight;
   let textY = y + h / 2 - blockHeight / 2 + fitted.size - 4;
@@ -687,14 +1221,35 @@ function drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config, customY) {
 
   if (config.ctaVariant === "burst") {
     for (let i = 0; i < 10; i++) {
-      drawCircle(ctx, x + 70 + i * 90, y + 20 + (i % 2) * 70, 8, rgba(ctaTextColor, 0.18));
+      drawCircle(
+        ctx,
+        x + 70 + i * 90,
+        y + 20 + (i % 2) * 70,
+        8,
+        rgba(ctaTextColor, 0.18),
+      );
     }
   } else {
     fillRoundRect(ctx, x + 20, y + 18, 110, 34, 17, rgba(ctaTextColor, 0.16));
-    fillRoundRect(ctx, x + w - 130, y + 66, 90, 28, 14, rgba(ctaTextColor, 0.16));
+    fillRoundRect(
+      ctx,
+      x + w - 130,
+      y + 66,
+      90,
+      28,
+      14,
+      rgba(ctaTextColor, 0.16),
+    );
   }
 
-  const fitted = fitWrappedText(ctx, ctaText, w - 120, [31, 29, 27, 25], 2, "bold");
+  const fitted = fitWrappedText(
+    ctx,
+    ctaText,
+    w - 120,
+    [31, 29, 27, 25],
+    2,
+    "bold",
+  );
   const lineHeight = fitted.size + 10;
   const totalHeight = fitted.lines.length * lineHeight;
   let textY = y + h / 2 - totalHeight / 2 + fitted.size - 4;
@@ -710,7 +1265,7 @@ function drawCtaBlock(ctx, W, H, palette, qNum, styleIndex, config, customY) {
 }
 
 function drawFooter(ctx, W, H, palette, align) {
-  const footer = "farhan-mcq.com | Farhan MCQ";
+  const footer = "farhanmcq.com | Farhan MCQ";
   ctx.fillStyle = rgba(palette.text, 0.72);
   ctx.font = `18px ${FONT}`;
 
@@ -727,18 +1282,52 @@ function drawFooter(ctx, W, H, palette, align) {
   ctx.textAlign = "left";
 }
 
-async function renderStyle(ctx, W, H, question, qNum, palette, config, styleIndex) {
+async function renderStyle(
+  ctx,
+  W,
+  H,
+  question,
+  qNum,
+  palette,
+  config,
+  styleIndex,
+) {
   drawBackground(ctx, W, H, palette, config.bgVariant);
 
-  let ownerOffset = 0;
+  const headerBottom = drawHeader(ctx, W, question, qNum, palette, config);
+  let questionStartY = headerBottom + 20;
+
   if (config.ownerImage) {
     const ownerImg = await loadOwnerImage(config.ownerImage);
-    ownerOffset = drawOwnerPhoto(ctx, W, palette, config.ownerPosition, ownerImg);
+    if (ownerImg) {
+      questionStartY =
+        drawOwnerPhoto(
+          ctx,
+          W,
+          palette,
+          config.ownerPosition,
+          ownerImg,
+          headerBottom + 18,
+        ) + 20;
+    }
   }
 
-  const headerBottom = drawHeader(ctx, W, question, qNum, palette, config) + ownerOffset;
-  const questionBottom = drawQuestionBlock(ctx, W, question, palette, config, headerBottom + 20);
-  const optionsBottom = drawOptionsBlock(ctx, W, question, palette, config, questionBottom + 24);
+  const questionBottom = drawQuestionBlock(
+    ctx,
+    W,
+    question,
+    palette,
+    config,
+    questionStartY,
+  );
+  const optionsBottom = drawOptionsBlock(
+    ctx,
+    W,
+    question,
+    palette,
+    config,
+    questionBottom + 24,
+  );
 
   // Dynamic CTA positioning: place CTA after options with proper spacing
   // but ensure it doesn't go below the footer area
@@ -856,10 +1445,30 @@ async function style24(ctx, W, H, question, qNum, palette) {
 // Array of all style functions
 // ══════════════════════════════════════════════════════════════════
 const STYLES = [
-  style1, style2, style3, style4, style5, style6,
-  style7, style8, style9, style10, style11, style12,
-  style13, style14, style15, style16, style17, style18,
-  style19, style20, style21, style22, style23, style24,
+  style1,
+  style2,
+  style3,
+  style4,
+  style5,
+  style6,
+  style7,
+  style8,
+  style9,
+  style10,
+  style11,
+  style12,
+  style13,
+  style14,
+  style15,
+  style16,
+  style17,
+  style18,
+  style19,
+  style20,
+  style21,
+  style22,
+  style23,
+  style24,
 ];
 
 /**
@@ -911,18 +1520,41 @@ async function generateSolutionSlide(question, questionNumber, styleIndex) {
   // Draw background
   drawBackground(ctx, W, H, palette, config.bgVariant);
 
-  // Draw owner photo if configured
-  let ownerOffset = 0;
+  // Draw header
+  const headerBottom = drawHeader(
+    ctx,
+    W,
+    question,
+    questionNumber,
+    palette,
+    config,
+  );
+
+  let questionStartY = headerBottom + 20;
   if (config.ownerImage) {
     const ownerImg = await loadOwnerImage(config.ownerImage);
-    ownerOffset = drawOwnerPhoto(ctx, W, palette, config.ownerPosition, ownerImg);
+    if (ownerImg) {
+      questionStartY =
+        drawOwnerPhoto(
+          ctx,
+          W,
+          palette,
+          config.ownerPosition,
+          ownerImg,
+          headerBottom + 18,
+        ) + 20;
+    }
   }
 
-  // Draw header
-  const headerBottom = drawHeader(ctx, W, question, questionNumber, palette, config) + ownerOffset;
-
   // Draw question block
-  const questionBottom = drawQuestionBlock(ctx, W, question, palette, config, headerBottom + 20);
+  const questionBottom = drawQuestionBlock(
+    ctx,
+    W,
+    question,
+    palette,
+    config,
+    questionStartY,
+  );
 
   // Draw options with correct answer highlighted
   const opts = getOptions(question);
@@ -943,66 +1575,91 @@ async function generateSolutionSlide(question, questionNumber, styleIndex) {
     const col = columns === 2 ? i % 2 : 0;
     const x = outerX + col * (colW + gap);
     const y = startY + row * (boxH + gap);
-    const isCorrect = i === correctIdx;
-
-    if (isCorrect) {
-      // Highlight correct answer with green background and border
-      fillRoundRect(ctx, x, y, colW, boxH, 24, rgba("#10b981", 0.2), "#10b981", 3);
-    } else {
-      // Normal option styling
-      const style = getOptionStyle(palette, config.optionVariant);
-      fillRoundRect(ctx, x, y, colW, boxH, 24, style.fill, style.stroke, 2);
-    }
+    const style = getOptionStyle(palette, config.optionVariant);
+    fillRoundRect(ctx, x, y, colW, boxH, 24, style.fill, style.stroke, 2);
 
     // Draw badge
     const badgeSize = columns === 2 ? 44 : 48;
-    const badgeFill = isCorrect ? "#10b981" : palette.accent;
-    fillRoundRect(ctx, x + 18, y + 18, badgeSize, badgeSize, 18, badgeFill);
-    ctx.fillStyle = isCorrect ? "#ffffff" : readableTextOn(palette.accent);
+    fillRoundRect(
+      ctx,
+      x + 18,
+      y + 18,
+      badgeSize,
+      badgeSize,
+      18,
+      palette.accent,
+    );
+    ctx.fillStyle = readableTextOn(palette.accent);
     ctx.font = `bold ${columns === 2 ? 22 : 24}px ${FONT}`;
     ctx.textAlign = "center";
-    ctx.fillText(opts[i].key, x + 18 + badgeSize / 2, y + 18 + badgeSize / 2 + 8);
+    ctx.fillText(
+      opts[i].key,
+      x + 18 + badgeSize / 2,
+      y + 18 + badgeSize / 2 + 8,
+    );
     ctx.textAlign = "left";
 
     // Draw option text
     const innerX = x + 18 + badgeSize + 18;
     const innerW = colW - (innerX - x) - 20;
     const sizeSet = columns === 2 ? [22, 20, 18] : [24, 22, 20, 18];
-    const fitted = fitWrappedText(ctx, opts[i].text, innerW, sizeSet, columns === 2 ? 3 : 2, "bold");
+    const fitted = fitWrappedText(
+      ctx,
+      opts[i].text,
+      innerW,
+      sizeSet,
+      columns === 2 ? 3 : 2,
+      "bold",
+    );
     const lineHeight = fitted.size + 10;
     const blockHeight = fitted.lines.length * lineHeight;
     let textY = y + boxH / 2 - blockHeight / 2 + fitted.size - 4;
 
-    ctx.fillStyle = isCorrect ? "#065f46" : palette.text;
+    ctx.fillStyle = palette.text;
     ctx.font = `bold ${fitted.size}px ${FONT}`;
     for (const line of fitted.lines) {
       ctx.fillText(line, innerX, textY);
       textY += lineHeight;
     }
-
-    // Draw checkmark for correct answer
-    if (isCorrect) {
-      ctx.fillStyle = "#10b981";
-      ctx.font = `bold 20px ${FONT}`;
-      ctx.textAlign = "right";
-      ctx.fillText("Correct", x + colW - 20, y + boxH / 2 + 7);
-      ctx.textAlign = "left";
-    }
   }
 
-  const optionsBottom = startY + (columns === 2 ? 2 * boxH + gap : 4 * boxH + 3 * gap);
+  const optionsBottom =
+    startY + (columns === 2 ? 2 * boxH + gap : 4 * boxH + 3 * gap);
 
   // Draw solution banner
   const bannerY = optionsBottom + 16;
   const bannerH = 80;
-  fillRoundRect(ctx, 42, bannerY, W - 84, bannerH, 24, "#10b981", rgba("#065f46", 0.3), 2);
+  fillRoundRect(
+    ctx,
+    42,
+    bannerY,
+    W - 84,
+    bannerH,
+    24,
+    "#10b981",
+    rgba("#065f46", 0.3),
+    2,
+  );
   ctx.fillStyle = "#ffffff";
   ctx.font = `bold 30px ${FONT}`;
   ctx.textAlign = "center";
   const correctOption = opts[correctIdx];
-  const answerText = correctOption ? `Correct Answer: (${correctOption.key}) ${correctOption.text}` : "Answer";
-  const answerFitted = fitWrappedText(ctx, answerText, W - 180, [28, 24, 22, 20], 2, "bold");
-  let ansY = bannerY + bannerH / 2 - (answerFitted.lines.length * (answerFitted.size + 8)) / 2 + answerFitted.size;
+  const answerText = correctOption
+    ? `Correct Answer: (${correctOption.key}) ${correctOption.text}`
+    : "Answer";
+  const answerFitted = fitWrappedText(
+    ctx,
+    answerText,
+    W - 180,
+    [28, 24, 22, 20],
+    2,
+    "bold",
+  );
+  let ansY =
+    bannerY +
+    bannerH / 2 -
+    (answerFitted.lines.length * (answerFitted.size + 8)) / 2 +
+    answerFitted.size;
   ctx.font = `bold ${answerFitted.size}px ${FONT}`;
   for (const line of answerFitted.lines) {
     ctx.fillText(line, W / 2, ansY);
@@ -1034,7 +1691,9 @@ async function generate24Slides(fetchQuestionFn) {
   const startNum = counter.lastQuestionNumber + 1;
   const slides = [];
 
-  console.log(`\n📸 Generating 24 slides (Question #${startNum} to #${startNum + 23})...\n`);
+  console.log(
+    `\n📸 Generating 24 slides (Question #${startNum} to #${startNum + 23})...\n`,
+  );
 
   for (let i = 0; i < 24; i++) {
     const qNum = startNum + i;
@@ -1043,16 +1702,24 @@ async function generate24Slides(fetchQuestionFn) {
     try {
       const question = await fetchQuestionFn();
       if (!question) {
-        console.error(`⚠️  No question fetched for slide ${i + 1}, skipping...`);
+        console.error(
+          `⚠️  No question fetched for slide ${i + 1}, skipping...`,
+        );
         continue;
       }
 
       const filePath = await generateSlide(question, qNum, styleIdx);
       slides.push({ path: filePath, questionNumber: qNum, question });
-      console.log(`  ✅ Slide ${i + 1}/24 — Question #${qNum} (Style ${styleIdx + 1}) saved`);
+      console.log(
+        `  ✅ Slide ${i + 1}/24 — Question #${qNum} (Style ${styleIdx + 1}) saved`,
+      );
 
       // Generate solution image with correct answer
-      const solutionPath = await generateSolutionSlide(question, qNum, styleIdx);
+      const solutionPath = await generateSolutionSlide(
+        question,
+        qNum,
+        styleIdx,
+      );
       console.log(`  📝 Solution for Question #${qNum} saved`);
     } catch (err) {
       console.error(`  ❌ Slide ${i + 1}/24 failed: ${err.message}`);
@@ -1066,8 +1733,12 @@ async function generate24Slides(fetchQuestionFn) {
   counter.lastRunDate = new Date().toISOString();
   writeCounter(counter);
 
-  console.log(`\n✨ Generated ${slides.length} slides (Question #${startNum} to #${endNum})`);
-  console.log(`📊 Total slides ever generated: ${counter.totalSlidesGenerated}`);
+  console.log(
+    `\n✨ Generated ${slides.length} slides (Question #${startNum} to #${endNum})`,
+  );
+  console.log(
+    `📊 Total slides ever generated: ${counter.totalSlidesGenerated}`,
+  );
   console.log(`💾 Slides saved to: ${IMAGES_DIR}`);
   console.log(`📝 Solutions saved to: ${SOLUTIONS_DIR}\n`);
 

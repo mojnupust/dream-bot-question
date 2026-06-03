@@ -40,7 +40,7 @@ function buildFacebookText(question) {
     ``,
     `${tag} ${examTag} #FarhanMCQ #MCQ #BCS_প্রস্তুতি`,
     ``,
-    `farhan-mcq.com`,
+    ``,
   ].join("\n");
 }
 
